@@ -1,0 +1,13 @@
+Lenovo
+Asus
+Acer
+Macbook
+HP
+Dell
+MSI
+Razer
+Samsung
+Xiaomi
+Alienware
+Huawei
+LG
