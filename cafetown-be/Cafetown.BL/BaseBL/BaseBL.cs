@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Cafetown.BL
 {
-    public abstract class BaseBL<T> : IBaseBL<T>
+    public class BaseBL<T> : IBaseBL<T>
     {
         #region Field
         private readonly IBaseDL<T> _baseDL;

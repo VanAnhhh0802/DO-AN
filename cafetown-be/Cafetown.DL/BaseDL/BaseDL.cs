@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
+using System.Reflection;
+using System.ComponentModel.DataAnnotations;
 
 namespace Cafetown.DL
 {
@@ -245,7 +247,7 @@ namespace Cafetown.DL
         /// <param name="recordID">ID của bản ghi</param>
         /// <returns>Thông tin của bản ghi theo ID</returns>
         /// Modified by: TTTuan 5/1/2023
-        protected virtual T GetRecordByID(Guid recordID)
+        public T GetRecordByID(Guid recordID)
         {
             // Khai báo kết nối tới DB
             var connectionString = DataContext.ConnectionString;
@@ -389,24 +391,9 @@ namespace Cafetown.DL
 
             var properties = typeof(T).GetProperties();
 
-            foreach (var property in properties)
-            {
-                var propertyName = property.Name;
-
-                object? propertyValue;
-
-                var primaryKeyAttribute = (PrimaryKeyAttribute?)Attribute.GetCustomAttribute(property, typeof(PrimaryKeyAttribute));
-                if (primaryKeyAttribute != null)
-                {
-                    propertyValue = recordID;
-                }
-                else
-                {
-                    propertyValue = property.GetValue(record, null);
-                }
-                parameters.Add($"${propertyName}", propertyValue);
-            }
-
+            GeneratePrimaryKeyValue(properties, parameters, recordID);
+            GetValueProperties(record, properties, parameters);
+                
             var numberOfAffectedRows = 0;
 
             // Khởi tạo kết nối đến DB
@@ -417,6 +404,26 @@ namespace Cafetown.DL
             }
 
             return numberOfAffectedRows;
+        }
+
+        public virtual void GetValueProperties (T record, PropertyInfo[] properties, DynamicParameters parameters)
+        {
+            foreach (var property in properties)
+            {
+                parameters.Add($"${property.Name}", property.GetValue(record));
+            }
+        }
+
+        public virtual void GeneratePrimaryKeyValue(PropertyInfo[] properties, DynamicParameters parameters, Guid id)
+        {
+            foreach (var property in properties)
+            {
+                var keyAttribute = (KeyAttribute?)property.GetCustomAttributes(typeof(KeyAttribute), false).FirstOrDefault();
+                if (keyAttribute != null)
+                {
+                    parameters.Add($"${property.Name}", id);
+                }
+            }
         }
     }
 }

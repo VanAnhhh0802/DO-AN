@@ -8,6 +8,7 @@ namespace Cafetown.Common.Entities
 {
     public class Vendor  : BaseEntity
     {
+        [PrimaryKey]
         public Guid VendorID { get; set; }
         public string VendorCode { get; set; }
         public string VendorName { get; set; }

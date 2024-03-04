@@ -64,7 +64,7 @@ namespace Cafetown.DL
         /// <param name="recordID">ID của bản ghi</param>
         /// <returns>Thông tin của bản ghi theo ID</returns>
         /// Modified by: TTTuan 5/1/2023
-        protected virtual T GetRecordByID(Guid recordID);
+        public  T GetRecordByID(Guid recordID);
 
         /// <summary>
         /// Thêm mới một bản ghi
