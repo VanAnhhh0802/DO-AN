@@ -21,31 +21,11 @@
                                 </div>
                                 <div class="form-group col l-7 md-7 c-7">
                                     <v-input :label="$t('inventory_info.name')" v-model="inventory.inventoryName"
-                                        ref="inventoryName" @validate="setValid('inventoryName', $event)" :maxLength="100"
+                                        ref="inventoryName" @validate="setValid('inventoryName', $event)" :maxLength="100" 
                                         :required="true" :errorLabel="$t('inventory_info.name')">
                                     </v-input>
                                 </div>
                                 <div class="form-group col l-12 md-12">
-                                    <!-- <BCombobox
-                                        :url= "url.inventoryCategory"
-                                        propValue="inventoryCategoryID"
-                                        propCode="inventoryCategoryCode"
-                                        propText="inventoryCategoryName"
-                                        :fieldName="$t('inventory_info.inventory_category')"
-                                        :propPlaceholder="$t('inventory_info.inventory_category')"
-                                        :setID="inventory.inventoryCategoryID" 
-                                        :setValue="inventory.inventoryCategoryName"
-                                        @getID = "inventory.inventoryCategoryID = $event"
-                                        @getCode = "inventory.inventoryCategoryCode = $event"
-                                        @getName = "inventory.inventoryCategoryName = $event"
-                                        :required="this.isShowValidity.emptyDepartmentID"
-                                        @onClick="this.isShowValidity.emptyDepartmentID = $event"
-                                        @onBlur="this.isShowValidity.emptyDepartmentID = $event"
-                                        :addFocus="this.focusDepartment"
-                                        @removeFocus="this.focusDepartment = $event"
-                                        @onChange="checkChangeDepartment($event)"
-                                        >
-                                    </BCombobox> -->
                                     <div class="v-input__label">
                                         <label @click="handleInputFocus">
                                             <!-- :tooltip="tooltipText" :position="tooltipPosition" -->
@@ -65,6 +45,28 @@
                                         @getID="inventory.inventoryCategoryID = $event"
                                         @getCode="inventory.inventoryCategoryCode = $event"
                                         @getName="inventory.inventoryCategoryName = $event"
+                                        >
+                                    </BCombobox>
+                                </div>
+                                <div class="form-group col l-12 md-12">
+                                    <div class="v-input__label">
+                                        <label @click="handleInputFocus">
+                                            <!-- :tooltip="tooltipText" :position="tooltipPosition" -->
+                                            {{ $t('inventory_info.vendor') }} <span> * </span>
+                                        </label>
+                                    </div>
+                                    <BCombobox
+                                        :url= "url.vendorList"
+                                        propValue="vendorID"
+                                        propCode="vendorCode"
+                                        propText="vendorName"
+                                        :fieldName="$t('inventory_info.vendor')"
+                                        :propPlaceholder="$t('inventory_info.vendor')"
+                                        :setID="inventory.vendorID" 
+                                        :setValue="inventory.vendorName"
+                                        @getID="inventory.vendorID = $event"
+                                        @getCode="inventory.vendorCode = $event"
+                                        @getName="inventory.vendorName = $event"
                                         >
                                     </BCombobox>
                                 </div>
@@ -173,14 +175,18 @@ export default {
                 createdDate: "",
                 createdBy: "",
                 modifiedDate: "",
-                modifiedBy: ""
+                modifiedBy: "",
+                vendorID: "",
+                vendorCode: "",
+                vendorName: "",
             },
             attemptSubmit: true, // biến kiểm tra đã submit form chưa
             Enum: Enum, // dùng để gọi Enum trong template 
             isChaged: false, // dùng để check xem có thay đổi dữ liệu hay không
             inventoryList: [], // danh sách phòng ban
             url: {
-                inventoryCategory: "http://localhost:59997/api/v1/InventoryCategories"
+                inventoryCategory: "http://localhost:59997/api/v1/InventoryCategories",
+                vendorList: "http://localhost:59997/api/v1/Vendors",
             },
         };
     },

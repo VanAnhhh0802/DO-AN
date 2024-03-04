@@ -40,7 +40,7 @@
     "purchase": "Mua hàng",
     "sales": "Bán hàng",
     "manage_invoice": "Hóa đơn bán hàng",
-    "manage_inventory": "Quản lý hàng bán",
+    "manage_inventory": "Quản lý mặt hàng",
     "manage_stock": "Quản lý kho",
     "manage_table": "Quản lý bàn",
     "manage_vendor": "Quản lý nhà cung cấp",
@@ -316,6 +316,30 @@
     "out_stock": "Xuất kho",
     "search_function": "Tìm theo mã, tên"
   },
+  "vendor_table": {
+    "title": "Danh sách nhà cung cấp",
+    "add_vendor": "Thêm nhà cung cấp",
+    "add_stock": "Thêm nhà cung cấp",
+    "search_function": "Tìm theo mã, tên",
+    "code": "Mã nhà cung cấp",
+    "name": "Tên nhà cung cấp",
+    "Address": "Địa chỉ",
+    "Phone": "Số điện thoại",
+    "TaxCode": "Mã số thuế",
+    "Email": "Email",
+    "Inactive": "Trạng thái",
+    "action": "Chức năng"
+  },
+  "vendor_detail": {
+    "title_add":"Thêm nhà cung cấp",
+    "code": "Mã nhà cung cấp",
+    "name": "Tên nhà cung cấp",
+    "Address": "Địa chỉ",
+    "Phone": "Số điện thoại",
+    "TaxCode": "Mã số thuế",
+    "Email": "Email",
+    "Inactive": "Trạng thái"
+  },
   "stock_table": {
     "code": "Mã kho",
     "name": "Tên kho",
@@ -336,11 +360,13 @@
     "date_out": "Ngày xuất hàng",
     "user_add": "Người nhập hàng",
     "user_out": "Người xuất hàng",
-    "quantities": "Số lượng"
+    "quantities": "Số lượng",
+    "vendor": "Nhà cung cấp"
   },
   "inventory_page": {
-    "title": "Danh sách hàng bán",
-    "add_inventory": "Thêm hàng bán",
+    "title": "Danh sách mặt hàng",
+    "add_inventory": "Thêm mặt hàng",
+    "out_inventory": "Xuất hàng",
     "search_function": "Tìm theo mã, tên hàng"
   },
   "inventory_table": {
@@ -354,14 +380,21 @@
   },
   "inventory_info": {
     "title": "Thông tin hàng bán",
+    "title_out": "Xuất hàng",
+    "choose_inventory": "Chọn mặt hàng",
     "code": "Mã",
     "name": "Tên",
     "inventory_category": "Danh mục hàng bán",
     "inventory": "Chọn sản phẩm",
     "quantity": "Số lượng",
+    "quantity_remaining": "Số lượng ở trong kho",
+    "quantity_export": "Số lượng xuất",
+    "into_money": "Thành tiền",
     "cost": "Đơn giá",
     "description": "Mô tả",
-    "image": "Hình ảnh"
+    "image": "Hình ảnh",
+    "vendor": "Nhà cung cấp"
+
   },
 
   "sales_page": {

@@ -123,12 +123,12 @@ export default {
         return [
           {
             title: this.$t(`table_list.code`),
-            key: "tablesCode",
+            key: "tableManagerCode",
             search: true,
           },
           {
             title: this.$t(`table_list.name`),
-            key: "tablesName",
+            key: "tableManagerName",
             width: "200px",
             search: true,
           },
@@ -139,6 +139,7 @@ export default {
           {
             title: this.$t(`table_list.status`),
             key: "status",
+            filterable: true,
           },
           {
             title: this.$t(`table_list.action`),
@@ -340,7 +341,7 @@ export default {
     showEditEmployeeForm(table) {
       const me = this;
       me.$store.dispatch("setMode", Enum.FORM_MODE.EDIT);
-      me.$store.dispatch("setTableId", table.tablesID);
+      me.$store.dispatch("setTableId", table.tableManagerID);
       me.showInventoryItemForm = true;
     },
     /**
@@ -348,9 +349,9 @@ export default {
      * @param {object} employee - Dữ liệu của nhân viên
      * Author: hvanh 07/10/2022
      */
-    deleteEmployee(employee) {
+    deleteEmployee(tableManager) {
       const me = this;
-      me.deleteEmployeeBackend(employee);
+      me.deleteEmployeeBackend(tableManager);
     },
     /**
      * @description: Hàm này dùng để xóa nhiều nhân viên
@@ -424,26 +425,26 @@ export default {
      * @param {object} data - Dữ liệu của nhân viên cần xóa
      * Author: hvanh 19/09/2022
      */
-    async deleteEmployeeBackend(employee) {
+    async deleteEmployeeBackend(tableManger) {
       const me = this;
       try {
         const confirm = await me.$refs.popup.show({
           message: me.$t("notice_message.confirm_delete", [
-            employee.employeeCode,
+            tableManger.tableManagerCode,
           ]),
           icon: Enum.ICON.WARNING,
           okButton: me.$t("confirm_popup.yes"),
           closeButton: me.$t("confirm_popup.cancel"),
         });
         if (confirm == me.$t("confirm_popup.yes")) {
-          const res = await me.$api.employee.deleteEmployee(
-            employee.employeeID
+          const res = await me.$api.table.deleteTable(
+            tableManger.tableManagerID
           );
           if (res.status == Enum.MISA_CODE.SUCCESS) {
-            me.deleteEmployeeFrontEnd(employee);
+            me.deleteEmployeeFrontEnd(tableManger);
           } else {
             me.$root.$toast.error(
-              me.$t("notice_message.delete_fail", [employee.employeeCode])
+              me.$t("notice_message.delete_fail", [tableManger.tableMangerCode])
             );
           }
         }
@@ -458,21 +459,21 @@ export default {
      */
     deleteEmployeeFrontEnd(data) {
       const me = this;
-      const { employeeID, employeeCode } = data;
+      const { tableMangerID, tableMangerCode } = data;
       try {
         const index = me.stockList.data.findIndex(
-          (item) => item.employeeID === employeeID
+          (item) => item.tableMangerID === tableMangerID
         );
         if (index !== -1) {
           me.stockList.data.splice(index, 1);
           me.$root.$toast.success(
-            me.$t("notice_message.delete_success", [employeeCode])
+            me.$t("notice_message.delete_success", [tableMangerCode])
           );
           me.stockList.totalRecord -= 1; // Giảm tổng số bản ghi đi 1
         }
       } catch (error) {
         me.$root.$toast.success(
-          me.$t("notice_message.delete_fail", [employeeCode])
+          me.$t("notice_message.delete_fail", [tableMangerCode])
         );
         console.log(error);
       }

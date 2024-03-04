@@ -1,13 +1,10 @@
 <template>
     <div class="employee">
         <div class="employee-header">
-            <div class="employee-title">{{ $t('stock_page.title') }}</div>
+            <div class="employee-title">{{ $t('vendor_table.title') }}</div>
             <div style="display: flex; column-gap: 8px;">
-                <v-button @click="handleAction(Enum.ACTION.ADD, null ,'out')">
-                    {{ $t('stock_page.out_stock') }}
-                </v-button>
-                <v-button @click="handleAction(Enum.ACTION.ADD, null ,'add')">
-                    {{ $t('stock_page.add_stock') }}
+                <v-button @click="handleAction(Enum.ACTION.ADD, null)">
+                    {{ $t('vendor_table.add_vendor') }}
                 </v-button>
             </div>
         </div>
@@ -57,8 +54,8 @@
             </v-pagination>
 
             <!-- Form sửa và thêm nhân viên -->
-            <stock-form v-model="showInventoryItemForm" @insertInventoryItem="insertInventoryItem" @updateInventoryItem="updateEmployee" :isAdd="isAdd" >
-            </stock-form>
+            <vendor-detail v-model="showInventoryItemForm" @insertInventoryItem="insertInventoryItem" @updateInventoryItem="updateEmployee" :isAdd="isAdd" >
+            </vendor-detail>
             <!-- Khu vực hiển thị popup và toast thông báo -->
             <v-popup ref="popup"></v-popup>
             <v-toast ref="toast" :showProgress="true" :maxMessage="10"></v-toast>
@@ -67,13 +64,13 @@
 </template>
 <script>
 import Enum from "@/utils/enum";
-// import StockForm from './StockForm.vue';
+import VendorDetail from './VendorDetail.vue';
 
 // import { mapGetters } from 'vuex';
 
 export default {
     components: { 
-        // StockForm,
+        VendorDetail,
      },
     data() {
         return {
@@ -118,32 +115,39 @@ export default {
             get() {
                 return [
                     {
-                        title: this.$t(`stock_table.code`),
-                        key: 'inventoryItemCode',
+                        title: this.$t(`vendor_table.code`),
+                        key: 'vendorCode',
                         search: true,
                     },
                     {
-                        title: this.$t(`stock_table.name`),
-                        key: 'inventoryItemName',
+                        title: this.$t(`vendor_table.name`),
+                        key: 'vendorName',
                         width: "200px",
+                        filterable: true,
                         search: true,
                     },
                     {
-                        title: this.$t(`stock_table.quatities_added`),
-                        key: 'quantitiesAdd',
+                        title: this.$t(`vendor_table.Address`),
+                        key: 'address',
                     },
                     {
-                        title: this.$t(`stock_table.UserName`),
-                        key: 'userNameAdd',
+                        title: this.$t(`vendor_table.Phone`),
+                        key: 'phone',
                     },
                     {
-                        title: this.$t(`stock_table.DateAdded`),
-                        key: 'dateAdd',
-                        textAlign: 'center',
-                        type: 'date',
+                        title: this.$t(`vendor_table.TaxCode`),
+                        key: 'taxCode',
                     },
                     {
-                        title: this.$t(`stock_table.action`),
+                        title: this.$t(`vendor_table.Email`),
+                        key: 'email',
+                    },
+                    {
+                        title: this.$t(`vendor_table.Inactive`),
+                        key: 'inactive',
+                    },
+                    {
+                        title: this.$t(`vendor_table.action`),
                         key: 'action',
                         type: 'action',
                         fixed: true,
@@ -279,17 +283,12 @@ export default {
          * @param {object} data - Dữ liệu của action
          * Author: hvanh 16/09/2022
          */
-        handleAction(action, data, type) {
+        handleAction(action, data) {
             const me = this;
             try {
                 switch (action) {
                     case Enum.ACTION.ADD: // thêm mới nhân viên
-                        if(type === 'add'){
-                            me.showAddInventoryItemForm();
-                        }
-                        else if (type === 'out'){
-                            me.showOutInventoryItemForm();
-                        }
+                        me.showAddInventoryItemForm();
                         break;
                     case Enum.ACTION.EDIT: // sửa nhân viên
                         me.showEditEmployeeForm(data);
@@ -339,10 +338,10 @@ export default {
          * @param {object} employee - Dữ liệu của nhân viên
          * Author: hvanh 07/10/2022
          */
-        showEditEmployeeForm(employee) {
+        showEditEmployeeForm(vendor) {
             const me = this;
             me.$store.dispatch('setMode', Enum.FORM_MODE.EDIT);
-            me.$store.dispatch('setEmployeeId', employee.employeeID);
+            me.$store.dispatch('setVendorId', vendor.vendorID);
             me.showInventoryItemForm = true;
         },
         /**
@@ -350,9 +349,9 @@ export default {
          * @param {object} employee - Dữ liệu của nhân viên
          * Author: hvanh 07/10/2022
          */
-        deleteEmployee(employee) {
+        deleteEmployee(vendor) {
             const me = this;
-            me.deleteEmployeeBackend(employee);
+            me.deleteEmployeeBackend(vendor);
         },
         /**
          * @description: Hàm này dùng để xóa nhiều nhân viên
@@ -409,7 +408,7 @@ export default {
             const me = this;
             try {
                 me.$root.$toast.info(me.$t('notice_message.export_excel_processing'));
-                const res = await me.$api.employee.exportEmployees(me.pagination); // kiểm tra xem có dữ liệu không
+                const res = await me.$api.vendor.exportVendors(me.pagination); // kiểm tra xem có dữ liệu không
                 if (res.status == Enum.MISA_CODE.SUCCESS) {
                     const link = document.createElement('a'); // tạo thẻ a để download file
                     link.href = res.request.responseURL; // đường dẫn tải file
@@ -426,21 +425,21 @@ export default {
          * @param {object} data - Dữ liệu của nhân viên cần xóa
          * Author: hvanh 19/09/2022
          */
-        async deleteEmployeeBackend(employee) {
+        async deleteEmployeeBackend(vendor) {
             const me = this;
             try {
                 const confirm = await me.$refs.popup.show({
-                    message: me.$t('notice_message.confirm_delete', [employee.employeeCode]),
+                    message: me.$t('notice_message.confirm_delete', [vendor.vendorCode]),
                     icon: Enum.ICON.WARNING,
                     okButton: me.$t('confirm_popup.yes'),
                     closeButton: me.$t('confirm_popup.cancel'),
                 });
                 if (confirm == me.$t('confirm_popup.yes')) {
-                    const res = await me.$api.employee.deleteEmployee(employee.employeeID);
+                    const res = await me.$api.vendor.deleteVendor(vendor.vendorID);
                     if (res.status == Enum.MISA_CODE.SUCCESS) {
-                        me.deleteEmployeeFrontEnd(employee);
+                        me.deleteEmployeeFrontEnd(vendor);
                     } else {
-                        me.$root.$toast.error(me.$t('notice_message.delete_fail', [employee.employeeCode]));
+                        me.$root.$toast.error(me.$t('notice_message.delete_fail', [vendor.vendorCode]));
                     }
                 }
             } catch (error) {
@@ -454,16 +453,16 @@ export default {
          */
         deleteEmployeeFrontEnd(data) {
             const me = this;
-            const { employeeID, employeeCode } = data;
+            const { vendorID, vendorCode } = data;
             try {
-                const index = me.stockList.data.findIndex((item) => item.employeeID === employeeID);
+                const index = me.stockList.data.findIndex((item) => item.vendorID === vendorID);
                 if (index !== -1) {
                     me.stockList.data.splice(index, 1);
-                    me.$root.$toast.success(me.$t('notice_message.delete_success', [employeeCode]));
+                    me.$root.$toast.success(me.$t('notice_message.delete_success', [vendorCode]));
                     me.stockList.totalRecord -= 1; // Giảm tổng số bản ghi đi 1
                 }
             } catch (error) {
-                me.$root.$toast.success(me.$t('notice_message.delete_fail', [employeeCode]));
+                me.$root.$toast.success(me.$t('notice_message.delete_fail', [vendorCode]));
                 console.log(error);
             }
         },
@@ -472,14 +471,14 @@ export default {
          * @param: {Object} employee - Dữ liệu của nhân viên
          * Author: hvanh 01/10/2022
          */
-        insertInventoryItem(employee) {
+        insertInventoryItem(vendor) {
             const me = this;
             try {
-                me.stockList.data.unshift(employee); // Thêm nhân viên vào đầu mảng
-                me.$root.$toast.success(me.$t('notice_message.insert_success', [employee.employeeCode]));
+                me.stockList.data.unshift(vendor); // Thêm nhân viên vào đầu mảng
+                me.$root.$toast.success(me.$t('notice_message.insert_success', [vendor.vendorCode]));
                 me.stockList.totalRecord += 1; // Tăng tổng số bản ghi lên 1
             } catch (error) {
-                me.$root.$toast.error(me.$t('notice_message.insert_fail', [employee.employeeCode]));
+                me.$root.$toast.error(me.$t('notice_message.insert_fail', [vendor.vendorCode]));
                 console.log(error);
             }
         },
@@ -487,17 +486,17 @@ export default {
          * @description: Hàm này dùng để cập nhật nhân viên ở bên frontend
          * Author: hvanh 05/10/2022
          */
-        updateEmployee(employee) {
+        updateEmployee(vendor) {
             const me = this;
             try {
-                const index = me.stockList.data.findIndex((item) => item.employeeID === employee.employeeID);
+                const index = me.stockList.data.findIndex((item) => item.vendorID === vendor.vendorID);
                 if (index !== -1) {
                     me.stockList.data.splice(index, 1);
-                    me.stockList.data.unshift(employee);
-                    me.$root.$toast.success(me.$t('notice_message.update_success', [employee.employeeCode]));
+                    me.stockList.data.unshift(vendor);
+                    me.$root.$toast.success(me.$t('notice_message.update_success', [vendor.vendorCode]));
                 }
             } catch (error) {
-                me.$root.$toast.error(me.$t('notice_message.update_fail', [employee.employeeCode]));
+                me.$root.$toast.error(me.$t('notice_message.update_fail', [vendor.vendorCode]));
                 console.log(error);
             }
         },
@@ -509,7 +508,7 @@ export default {
             const me = this;
             try {
                 me.isDataLoaded = false;
-                const result = await me.$api.vendor.getTableFilter(me.pagination);
+                const result = await me.$api.vendor.getVendorFilter(me.pagination);
                 if (result.status == Enum.MISA_CODE.SUCCESS) {
                     me.stockList = result.data;
                     me.isDataLoaded = true;

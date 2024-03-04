@@ -158,6 +158,10 @@ export default {
     addFocus: {
       type: Boolean,
       default: false,
+    },
+    emitAllData: {
+      type: Boolean,
+      default: false,
     }
   },
   components: {
@@ -219,8 +223,13 @@ export default {
       me.indexItemSelected = index;
       me.isShowListData = false;
 
-      me.$emit('getID', item[me.propValue]);
-      me.$emit('getCode', item[me.propCode]);
+      if(me.emitAllData){
+        me.$emit('getData', item);
+      }
+      else {
+        me.$emit('getID', item[me.propValue]);
+        me.$emit('getCode', item[me.propCode]);
+      }
     },
 
     /**

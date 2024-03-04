@@ -39,6 +39,22 @@
                                         :maxLength="255">
                                     </v-input>
                                 </div>
+                                <div class="form-group col l-12 md-12">
+                                    <BCombobox
+                                        :url= "url.vendorList"
+                                        propValue="vendorID"
+                                        propCode="vendorCode"
+                                        propText="vendorName"
+                                        :fieldName="$t('stock_infor.vendor')"
+                                        :propPlaceholder="$t('stock_infor.vendor')"
+                                        :setID="stokc.inventoryCategoryID" 
+                                        :setValue="inventory.inventoryCategoryName"
+                                        @getID="inventory.inventoryCategoryID = $event"
+                                        @getCode="inventory.inventoryCategoryCode = $event"
+                                        @getName="inventory.inventoryCategoryName = $event"
+                                        >
+                                    </BCombobox>
+                                </div>
                             </div>
                         </div>
                         <div class="col l-6 md-6">
@@ -109,22 +125,19 @@ export default {
     },
     data() {
         return {
-            inventoryItem: { // dữ liệu nhân viên
-                InventoryItemID: "",
-                InventoryItemCode: "",
-                InventoryItemName: "",
-                QuantitiesAdd: 0,
-                QuantitiesOut: 0,
-                UseIDAdd: "",
-                UserNameAdd: "",
-                DateAdd: "",
-                UseIDOut: "",
-                UserNameOut: "",
-                DateOut: ""
+            stock: { // dữ liệu nhân viên
+                stockID: "",
+                StockCode: "",
+                StockName: "",
+                Category: "",
+                Quantites: "",
             },
             attemptSubmit: true, // biến kiểm tra đã submit form chưa
             Enum: Enum, // dùng để gọi Enum trong template 
             isChaged: false, // dùng để check xem có thay đổi dữ liệu hay không
+            url: {
+                vendorList: "http://localhost:59997/api/v1/Vendors"
+            }
         };
     },
     computed: {

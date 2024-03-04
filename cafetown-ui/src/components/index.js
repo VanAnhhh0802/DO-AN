@@ -24,6 +24,7 @@ import TheHeader from "./layout/TheHeader";
 import TheSidebar from "./layout/TheSidebar";
 import TheInformation from "./layout/TheInformation";
 import VTableTree from "./base/Table/VTableTree.vue";
+import VTableFilter from "./base/Table/VTableFilter.vue";
 import VFilter from "./base/Filter/VFilter.vue";
 
 export default {
@@ -52,5 +53,6 @@ export default {
   VCollapse,
   VFilter,
   VTableTree,
+  VTableFilter,
   DropdownDate,
 };

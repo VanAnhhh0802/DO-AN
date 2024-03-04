@@ -7,6 +7,7 @@ const dialogMode = {
     mode: null, // mode của dialog (thêm, sửa, xóa)
     action: null, // action của dialog (thêm, sửa, xóa)
     employeeId: null, // id của nhân viên
+    vendorId: null, // id của nhân viên
     tablesId: null, // id của nhân viên
     inventoryId: null, // id của hàng hóa
     invoiceId: null, // id của hóa đơn
@@ -26,6 +27,9 @@ const dialogMode = {
      */
     setEmployeeId(state, employeeId) {
       state.employeeId = employeeId;
+    },
+    setVendorId(state, vendorId) {
+      state.vendorId = vendorId;
     },
     setTableId(state, tablesId) {
       state.tablesId = tablesId;
@@ -74,6 +78,9 @@ const dialogMode = {
     setEmployeeId({ commit }, employeeId) {
       commit("setEmployeeId", employeeId);
     },
+    setVendorId({ commit }, vendorId) {
+      commit("setVendorId", vendorId);
+    },
     setTableId({ commit }, tablesId) {
       commit("setTableId", tablesId);
     },
@@ -120,6 +127,9 @@ const dialogMode = {
      */
     getEmployeeId(state) {
       return state.employeeId;
+    },
+    getVendorId(state) {
+      return state.vendorId;
     },
     getTableId(state) {
       return state.tablesId;

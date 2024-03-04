@@ -55,6 +55,6 @@ export default (axios) => ({
    * Author: hvanh 1/3/2023
    */
   updateTable(object) {
-    return axios.put(`${PREFIX_EMPLOYEE}/${object.employeeID}`, object);
+    return axios.put(`${PREFIX_EMPLOYEE}/${object.tableManagerID}`, object);
   },
 });

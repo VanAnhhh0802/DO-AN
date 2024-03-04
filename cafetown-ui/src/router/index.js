@@ -67,18 +67,18 @@ const router = [
       order: 7,
     },
   },
-  {
-    path: "/kho",
-    component: lazyLoad("warehouse/stock/StockPage"),
-    meta: {
-      title: "Quản lý kho",
-    },
-    sideBar: {
-      icon: "ms-icon ms-icon-warehouse-stock",
-      title: "manage_stock",
-      order: 8,
-    },
-  },
+  // {
+  //   path: "/kho",
+  //   component: lazyLoad("warehouse/stock/StockPage"),
+  //   meta: {
+  //     title: "Quản lý kho",
+  //   },
+  //   sideBar: {
+  //     icon: "ms-icon ms-icon-warehouse-stock",
+  //     title: "manage_stock",
+  //     order: 8,
+  //   },
+  // },
   {
     path: "/ban",
     component: lazyLoad("TableManager/TableList"),
@@ -88,7 +88,7 @@ const router = [
     sideBar: {
       icon: "ms-icon ms-icon-warehouse-stock",
       title: "manage_table",
-      order: 8,
+      order: 9,
     },
   },
   {
@@ -100,7 +100,7 @@ const router = [
     sideBar: {
       icon: "ms-icon ms-icon-warehouse-stock",
       title: "manage_vendor",
-      order: 8,
+      order: 10,
     },
   },
 ];

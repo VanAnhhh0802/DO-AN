@@ -6,7 +6,7 @@ export default (axios) => ({
    * @return {Promise} Promise
    * Author: hvanh 1/3/2023
    */
-  getInventoryItemById(id) {
+  getVendorById(id) {
     return axios.get(`${PREFIX_EMPLOYEE}/${id}`);
   },
 
@@ -16,7 +16,7 @@ export default (axios) => ({
    * @return {Promise} Promise
    * Author: hvanh 1/3/2023
    */
-  getStockFilter(object) {
+  getVendorFilter(object) {
     var defaultObject = {
       pageNumber: 1,
       pageSize: 10,
@@ -34,7 +34,7 @@ export default (axios) => ({
    * @return {Promise} Promise
    * Author: hvanh 1/3/2023
    */
-  deleteStock(id) {
+  deleteVendor(id) {
     return axios.delete(`${PREFIX_EMPLOYEE}/${id}`);
   },
 
@@ -44,7 +44,7 @@ export default (axios) => ({
    * @return {Promise} Promise
    * Author: hvanh 1/3/2023
    */
-  insertStock(object) {
+  insertVendor(object) {
     return axios.post(`${PREFIX_EMPLOYEE}`, object);
   },
 
@@ -54,7 +54,12 @@ export default (axios) => ({
    * @return {Promise} Promise
    * Author: hvanh 1/3/2023
    */
-  updateStock(object) {
+  updateVendor(object) {
     return axios.put(`${PREFIX_EMPLOYEE}/${object.employeeID}`, object);
+  },
+  exportVendors(object) {
+    return axios.get(`${PREFIX_EMPLOYEE}/export?keyword=${object.keyword}`, {
+      responseType: "blob",
+    });
   },
 });
