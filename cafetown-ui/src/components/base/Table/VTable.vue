@@ -179,6 +179,7 @@
                   @onSelect="onSelect"
                   :items="actions"
                   :columns="columns"
+                  :customAction="customAction"
                 >
                 </v-menu>
               </template>
@@ -278,6 +279,10 @@ export default {
     VTableFilter,
   },
   props: {
+    customAction :{
+      type: Boolean,
+      default: false,
+    },
     actions: {
       // các action được thực hiện trên row
       type: Array,
@@ -297,8 +302,8 @@ export default {
     tablePadding: {
       // padding của table
       type: Boolean,
-      required: false,
       default: true,
+      required: false,
     },
     isDataLoaded: {
       // trạng thái load data

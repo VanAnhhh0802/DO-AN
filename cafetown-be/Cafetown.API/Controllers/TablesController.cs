@@ -1,4 +1,5 @@
 ﻿using Cafetown.BL;
+using Cafetown.BL.Table;
 using Cafetown.Common.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,8 +10,18 @@ namespace Cafetown.API.Controllers
     [ApiController]
     public class TablesController : BasesController<TableManager>
     {
-        public TablesController(IBaseBL<TableManager> baseBL) : base(baseBL)
+        private readonly ITableBL _tableBL;
+        public TablesController(ITableBL tableBL) : base(tableBL)
         {
+            _tableBL = tableBL;
+        }
+
+        [HttpGet("getAllFilter")]
+        public async Task<IActionResult> GetAllFilterStatus(string text = "Còn trống") 
+        {
+            var res = await _tableBL.GetAllFilter(text);
+            return StatusCode(StatusCodes.Status200OK, res);
+
         }
     }
 }

@@ -101,6 +101,7 @@ export default {
     ADD: "add",
     // Chỉnh sửa
     EDIT: "edit",
+    USE: "use",
     // Xóa
     DELETE: "delete",
     // Xóa nhiều

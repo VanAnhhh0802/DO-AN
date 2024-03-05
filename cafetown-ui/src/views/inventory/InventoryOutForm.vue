@@ -70,7 +70,7 @@
                   >
                   </v-input>
                 </div>
-                <div class="form-group col l-5 md-5">
+                <div class="form-group col l-7 md-7">
                   <v-input
                     :label="$t('inventory_info.quantity_export')"
                     v-model="quantityExport"
@@ -87,7 +87,26 @@
                   >
                   </v-input>
                 </div>
-
+                <div class="form-group col l-5 md-5">
+                  <div class="v-input__label">
+                    <label @click="handleInputFocus">
+                      {{ $t("inventory_info.choose_table") }}
+                    </label>
+                  </div>
+                  <BCombobox
+                    :url="url.tableManager"
+                    propValue="tableManagerID"
+                    propCode="tableManagerCode"
+                    propText="tableManagerName"
+                    :fieldName="$t('inventory_info.choose_table')"
+                    :propPlaceholder="$t('inventory_info.choose_table')"
+                    :setID="tableInfor.tableManagerID"
+                    :setValue="tableInfor.tableManagerName"
+                    @getData="getAllDataTable"
+                    :emitAllData="true"
+                  >
+                  </BCombobox>
+                </div>
                 <div class="form-group col l-12 md-12">
                   <v-input
                     :label="$t('inventory_info.into_money')"
@@ -160,12 +179,16 @@ import Enum from "@/utils/enum";
 //import UploadImage from 'vue-upload-image';
 
 export default {
-  name: "InventoryForm",
+  name: "InventoryOutForm",
   props: {
     modelValue: {
       // dùng để đóng mở form
       type: Boolean,
       default: false,
+    },
+    infoTable: {
+      type: Object,
+      default: () => {},
     },
   },
   /*     components: {
@@ -194,12 +217,19 @@ export default {
         vendorCode: "",
         vendorName: "",
       },
+      tableInfor: {
+        tableManagerID: "",
+        tableManagerCode: "",
+        tableManagerName: "",
+        capacity: "",
+      },
       attemptSubmit: true, // biến kiểm tra đã submit form chưa
       Enum: Enum, // dùng để gọi Enum trong template
       isChaged: false, // dùng để check xem có thay đổi dữ liệu hay không
       inventoryList: [], // danh sách phòng ban
       url: {
         inventoryCategory: "http://localhost:59997/api/v1/Inventories",
+        tableManager: "http://localhost:59997/api/v1/Tables/getAllFilter",
       },
       intoMoney: 0,
       quantityExport: 0,
@@ -210,7 +240,12 @@ export default {
     ...mapGetters(["getInventoryId"]),
     handleIntoMoney() {
       const me = this;
-      if (!me.quantityExport || me.quantityExport > me.inventory.quantity || !me.inventory.quantity) return 0;
+      if (
+        !me.quantityExport ||
+        me.quantityExport > me.inventory.quantity ||
+        !me.inventory.quantity
+      )
+        return 0;
       return me.quantityExport * me.inventory.cost;
     },
     /**
@@ -280,6 +315,14 @@ export default {
         if (!val) {
           this.formMode = Enum.FORM_MODE.NULL;
         }
+      },
+      deep: true,
+    },
+    infoTable: {
+      handler(val) {
+        if (!val) return;
+
+        console.log(val);
       },
       deep: true,
     },
@@ -362,6 +405,12 @@ export default {
       me.inventory = data;
       console.log(me.inventory);
     },
+    getAllDataTable(data) {
+      const me = this;
+      if (!data) return;
+      me.tableInfor = data;
+      console.log(me.tableInfor);
+    },
     numbersOnly(evt) {
       evt = evt ? evt : window.event;
       var charCode = evt.which ? evt.which : evt.keyCode;
@@ -426,10 +475,10 @@ export default {
       }
     },
 
-    beforeSave(data){
+    beforeSave(data) {
       const me = this;
-      
-      if(!data) return;
+
+      if (!data) return;
       me.inventory.quantity = me.inventory.quantity - me.quantityExport;
     },
     /**
@@ -440,7 +489,7 @@ export default {
     async updateInventory() {
       let me = this;
       //tính toán lại dữ liệu
-      me.beforeSave(me.inventory)
+      me.beforeSave(me.inventory);
 
       const response = await me.$api.inventory.updateInventory(me.inventory); // gọi api update nhân viên
       if (response.status == Enum.MISA_CODE.SUCCESS) {
@@ -552,29 +601,29 @@ export default {
         //   }
         // });
         // if (validateResult) {
-          Object.keys(me.inventory).forEach((key) => {
-            // xóa các trường là null hoặc ""
-            if (me.inventory[key] == null || me.inventory[key] === "") {
-              delete me.inventory[key];
-            }
-          });
-          let result = true;
-          me.formMode = Enum.FORM_MODE.EDIT;
-          switch (me.formMode) {
-            case Enum.FORM_MODE.EDIT: // nếu action form là edit thì thực hiện update
-              result = await me.updateInventory();
+        Object.keys(me.inventory).forEach((key) => {
+          // xóa các trường là null hoặc ""
+          if (me.inventory[key] == null || me.inventory[key] === "") {
+            delete me.inventory[key];
+          }
+        });
+        let result = true;
+        me.formMode = Enum.FORM_MODE.EDIT;
+        switch (me.formMode) {
+          case Enum.FORM_MODE.EDIT: // nếu action form là edit thì thực hiện update
+            result = await me.updateInventory();
+            break;
+        }
+        if (result) {
+          // nếu insert thành công thì xử lý action form
+          switch (action) {
+            case Enum.ACTION.SAVE_AND_CLOSE: // nếu nhấn cất
+              me.closeFormHandle(true);
+              break;
+            default:
               break;
           }
-          if (result) {
-            // nếu insert thành công thì xử lý action form
-            switch (action) {
-              case Enum.ACTION.SAVE_AND_CLOSE: // nếu nhấn cất
-                me.closeFormHandle(true);
-                break;
-              default:
-                break;
-            }
-          }
+        }
         // }
       } catch (error) {
         if (error.response) {

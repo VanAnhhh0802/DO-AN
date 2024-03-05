@@ -64,6 +64,7 @@
     "batch_action": "Thực hiện hàng loạt",
     "edit": "Sửa",
     "delete": "Xóa",
+    "use": "Sử dụng",
     "return": "Quay lại",
     "duplicate": "Nhân bản",
     "inactive": "Ngưng sử dụng",
@@ -308,7 +309,8 @@
     "capcity": "Sức chứa của bàn",
     "action": "Chức năng",
     "title_add": "Thêm bàn",
-    "title_edit": "Sửa thông tin bàn"
+    "title_edit": "Sửa thông tin bàn",
+    "use_manager": "Thông tin bàn"
   },
   "stock_page" : {
   "title": "Danh sách hàng hóa trong kho",
@@ -385,9 +387,10 @@
     "code": "Mã",
     "name": "Tên",
     "inventory_category": "Danh mục hàng bán",
+    "choose_table": "Chọn bàn",
     "inventory": "Chọn sản phẩm",
     "quantity": "Số lượng",
-    "quantity_remaining": "Số lượng ở trong kho",
+    "quantity_remaining": "Số lượng trong kho",
     "quantity_export": "Số lượng xuất",
     "into_money": "Thành tiền",
     "cost": "Đơn giá",

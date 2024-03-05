@@ -4,6 +4,8 @@ using Cafetown.API.Controllers;
 using Cafetown.BL.StockBL;
 using Cafetown.DL.StockDL;
 using Cafetown.DL.VendorDL;
+using Cafetown.BL.Table;
+using Cafetown.DL.Table;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,6 +53,9 @@ builder.Services.AddScoped<IStockDL, StockDL>();
 // Cơ cấu tổ chức
 builder.Services.AddScoped<IVendorBL, VendorBL>();
 builder.Services.AddScoped<IVendorDL, VendorDL>();
+
+builder.Services.AddScoped<ITableBL, TableBL>();
+builder.Services.AddScoped<ITableDL, TableDL>();
 
 builder.Services.AddScoped<IConnectionDL, MySqlConnectionDL>();
 

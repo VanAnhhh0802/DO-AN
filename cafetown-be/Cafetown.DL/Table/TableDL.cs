@@ -27,6 +27,31 @@ namespace Cafetown.DL.Table
             parameters.Add($"Capacity", record.Capacity);
             parameters.Add($"ModifiedDate", record.ModifiedDate);
         }
+
+        public async Task<List<TableManager>> GetAllFilter(string textFilter)
+        {
+            // Chuẩn bị chuỗi kết nối
+            var connectionString = DataContext.ConnectionString;
+
+            var queryText = "Proc_TableManager_getAllFilter";
+            var parameters = new DynamicParameters();
+            parameters.Add("$text", textFilter);
+
+            // Khai báo kết quả trả về
+            var list = new List<TableManager>();
+
+            // Khởi tạo kết nối đến DB
+            using (var mySqlConnection = _connectionDL.InitConnection(connectionString))
+            {
+                // Gọi vào DB để chạy stored ở trên
+                var records = mySqlConnection.QueryMultiple(queryText, parameters, commandType: System.Data.CommandType.StoredProcedure);
+
+                // Xử lý kết quả trả về
+                list = records.Read<TableManager>().ToList();
+            }
+
+            return list;
+        }
     }
 
     

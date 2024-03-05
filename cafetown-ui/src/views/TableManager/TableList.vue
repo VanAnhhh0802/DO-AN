@@ -45,6 +45,7 @@
         @action="handleAction"
         :actions="tableAction"
         :isDataLoaded="isDataLoaded"
+        customAction
       >
       </v-table>
       <!-- Phân trang -->
@@ -63,6 +64,12 @@
         :isAdd="isAdd"
       >
       </table-detail>
+      <inventory-out-form
+        v-model="showUserManagerDetail"
+        :infoTable="itemTable"
+      >
+      </inventory-out-form>
+
       <!-- Khu vực hiển thị popup và toast thông báo -->
       <v-popup ref="popup"></v-popup>
       <v-toast ref="toast" :showProgress="true" :maxMessage="10"></v-toast>
@@ -72,17 +79,21 @@
 <script>
 import Enum from "@/utils/enum";
 import TableDetail from "./TableDetail.vue";
+import InventoryOutForm from "@/views/inventory/InventoryOutForm.vue";
 
 // import { mapGetters } from 'vuex';
 
 export default {
   components: {
     TableDetail,
+    InventoryOutForm,
   },
   data() {
     return {
       keyword: "", // biến này dùng để lưu từ khóa tìm kiếm
       showInventoryItemForm: false, // biến này dùng để hiển thị form thêm mới hoặc cập nhật nhân viên
+      showUserManagerDetail: false, // biến này dùng để hiển thị form thêm mới hoặc cập nhật nhân viên
+      itemTable: {},
       stockList: [], // biến này dùng để lưu danh sách nhân viên
       pagination: {
         pageNumber: 1,
@@ -264,6 +275,9 @@ export default {
           case Enum.ACTION.RELOAD: // tổ hợp phím Ctrl + R để reload lại table
             this.handleAction(Enum.ACTION.RELOAD);
             break;
+          case Enum.ACTION.USE: // tổ hợp phím Ctrl + R để reload lại table
+            this.handleAction(Enum.ACTION.USE);
+            break;
           default:
             break;
         }
@@ -311,10 +325,21 @@ export default {
           case Enum.ACTION.EXPORT: // Xuất file excel
             me.exportExcel();
             break;
+          case Enum.ACTION.USE: // Xuất file excel
+            me.handleUseTable(data);
+            break;
+          default:
+            break;
         }
       } catch (error) {
         console.log(error);
       }
+    },
+    handleUseTable(data){
+      const me = this;
+      if(!data) return;
+      me.itemTable = data;
+      me.showUserManagerDetail = true;
     },
     /**
      * @description: Hàm này dùng để hiển thị form thêm mới nhân viên
