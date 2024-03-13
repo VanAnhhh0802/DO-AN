@@ -100,7 +100,6 @@ export default {
     data() {
         return {
             vendor: { // dữ liệu nhân viên
-                vendorID: "",
                 vendorCode: "",
                 vendorName: "",
                 address: "",
@@ -281,9 +280,9 @@ export default {
          */
         async updateInventoryItem() {
             let self = this;
-            const response = await self.$api.inventoryItem.updateInventoryItem(self.inventoryItem); // gọi api update nhân viên
+            const response = await self.$api.vendor.updateVendor(self.vendor); // gọi api update nhân viên
             if (response.status == Enum.MISA_CODE.SUCCESS) {
-                self.$emit("updateInventoryItem", self.inventoryItem); // emit giá trị inventoryItem vừa cập nhật
+                self.$emit("updateVendor", self.vendor); // emit giá trị inventoryItem vừa cập nhật
                 return Promise.resolve(true);
             }
         },
@@ -294,10 +293,10 @@ export default {
         */
         async insertInventoryItem() {
             let self = this;
-            const response = await self.$api.inventoryItem.insertInventoryItem(self.inventoryItem);
+            const response = await self.$api.vendor.insertVendor(self.vendor);
             if (response.status == Enum.MISA_CODE.CREATED) {
-                self.inventoryItem.inventoryItemID = response.data; // gán giá trị employeeID vừa thêm mới
-                self.$emit("insertInventoryItem", self.inventoryItem); // emit giá trị inventoryItem vừa thêm mới
+                self.vendor.vendorID = response.data; // gán giá trị employeeID vừa thêm mới
+                self.$emit("insertVendor", self.inventoryItem); // emit giá trị inventoryItem vừa thêm mới
                 return Promise.resolve(true);
             }
         },
@@ -311,15 +310,15 @@ export default {
                 let self = this;
                 if (!getNewEmployeeCode) return;
                 self.attemptSubmit = false; // reset lại trạng thái submit
-                const response = await self.$api.inventoryItem.getNewEmployeeCode(); // lấy mã nhân viên mới
-                if (response.status == Enum.MISA_CODE.SUCCESS) {
-                    self.inventoryItem = { // gán giá trị mặc định cho inventoryItem
-                        employeeCode: response.data,
-                        gender: 1,
-                        isEmployee: true,
-                        isManager: false,
-                    };
-                }
+                // const response = await self.$api.vendor.getNewEmployeeCode(); // lấy mã nhân viên mới
+                // if (response.status == Enum.MISA_CODE.SUCCESS) {
+                //     self.inventoryItem = { // gán giá trị mặc định cho inventoryItem
+                //         employeeCode: response.data,
+                //         gender: 1,
+                //         isEmployee: true,
+                //         isManager: false,
+                //     };
+                // }
             } catch (error) {
                 console.log(error);
             }
@@ -332,14 +331,14 @@ export default {
         async getEmployeeById(getNewEmployeeCode = false) {
             try {
                 let self = this;
-                const response = await self.$api.inventoryItem.getEmployeeById(self.getVendorId);
+                const response = await self.$api.vendor.getVendorById(self.getVendorId);
                 if (response.status == Enum.MISA_CODE.SUCCESS) {
-                    self.inventoryItem = response.data;
+                    self.vendor = response.data;
                     if (getNewEmployeeCode) {
-                        const res = await self.$api.inventoryItem.getNewEmployeeCode(); // lấy mã nhân viên mới
-                        if (res.status == Enum.MISA_CODE.SUCCESS) {
-                            self.inventoryItem.employeeCode = res.data;
-                        }
+                        // const res = await self.$api.vendor.getNewEmployeeCode(); // lấy mã nhân viên mới
+                        // if (res.status == Enum.MISA_CODE.SUCCESS) {
+                        //     self.inventoryItem.employeeCode = res.data;
+                        // }
                     }
                 }
             } catch (error) {
@@ -379,12 +378,12 @@ export default {
                     }
                 });
                 if (validateResult) {
-                    Object.keys(self.inventoryItem).forEach((key) => {
-                        // xóa các trường là null hoặc ""
-                        if (self.inventoryItem[key] == null || self.inventoryItem[key] === "") {
-                            delete self.inventoryItem[key];
-                        }
-                    });
+                    // Object.keys(self.vendor).forEach((key) => {
+                    //    // xóa các trường là null hoặc ""
+                    //     if (self.vendor[key] == null || self.vendor[key] === "") {
+                    //         delete self.vendor[key];
+                    //     }
+                    // });
                     let result = true;
                     switch (self.formMode) {
                         case Enum.FORM_MODE.ADD: // nếu action form là add thì thực hiện insert

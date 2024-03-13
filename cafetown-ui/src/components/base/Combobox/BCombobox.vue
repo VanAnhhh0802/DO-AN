@@ -444,7 +444,7 @@ export default {
   position: absolute;
   overflow: auto;
   width: 100%;
-  height: 180px;
+  height: max-content;
   max-height: 180px;
   top: 100%;
   left: 0;

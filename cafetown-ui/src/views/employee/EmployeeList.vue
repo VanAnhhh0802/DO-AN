@@ -1,4 +1,4 @@
-<template>
+ <template>
     <div class="employee">
         <div class="employee-header">
             <div class="employee-title">{{ $t('employee_page.title') }}</div>
@@ -41,6 +41,7 @@
                         v-model="keyword" :outline="true" :styleProps="['width: 240px', 'font-style: italic']"
                         className="v-input__with-icon" :focus="true" 
                     />
+                   
                     <div :tooltip="$t('action.reload_data')" class="ms-24 ms-icon ms-icon-reload ms-r-2 ml-l-2"
                         @click="handleAction(Enum.ACTION.RELOAD)">
                     </div>

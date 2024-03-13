@@ -9,6 +9,8 @@ namespace Cafetown.DL.Table
 {
     public interface ITableDL : IBaseDL<TableManager>
     {
-       Task<List<TableManager>> GetAllFilter(string textFilter);
+        Task<List<TableManager>> GetAllFilter(string textFilter);
+        Task<bool> UpdateStatus(Guid tableID, string status);
+        Task<bool> UpdateNumberUse(Guid tableID);
     }
 }

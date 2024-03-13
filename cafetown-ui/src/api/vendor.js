@@ -45,7 +45,7 @@ export default (axios) => ({
    * Author: hvanh 1/3/2023
    */
   insertVendor(object) {
-    return axios.post(`${PREFIX_EMPLOYEE}`, object);
+    return axios.post(`${PREFIX_EMPLOYEE}`,object);
   },
 
   /**
@@ -55,7 +55,7 @@ export default (axios) => ({
    * Author: hvanh 1/3/2023
    */
   updateVendor(object) {
-    return axios.put(`${PREFIX_EMPLOYEE}/${object.employeeID}`, object);
+    return axios.put(`${PREFIX_EMPLOYEE}/${object.vendorID}`, object);
   },
   exportVendors(object) {
     return axios.get(`${PREFIX_EMPLOYEE}/export?keyword=${object.keyword}`, {

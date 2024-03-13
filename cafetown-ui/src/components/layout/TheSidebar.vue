@@ -90,6 +90,9 @@ export default {
     transform: translateX(-100%);
     opacity: 0;
 }
+.ms-icon-table {
+  background-position: -291px -1500px;
+}
 </style>
 
 

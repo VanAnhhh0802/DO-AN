@@ -86,7 +86,7 @@ const router = [
       title: "Quản lý bàn",
     },
     sideBar: {
-      icon: "ms-icon ms-icon-warehouse-stock",
+      icon: "ms-icon ms-icon-buy",
       title: "manage_table",
       order: 9,
     },
@@ -98,7 +98,7 @@ const router = [
       title: "Quản lý nhà cung cấp",
     },
     sideBar: {
-      icon: "ms-icon ms-icon-warehouse-stock",
+      icon: "ms-icon ms-icon-bank",
       title: "manage_vendor",
       order: 10,
     },

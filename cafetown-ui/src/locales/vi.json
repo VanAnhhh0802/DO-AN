@@ -489,6 +489,8 @@
     "is_collected":"Đã thu tiền",
     "is_not_collected": "Chưa thu tiền",
     "runnin_out-of-stock": "Sắp hết hàng",
-    "out-of-stock": "Hết hàng"
+    "out-of-stock": "Hết hàng",
+    "Inactive": "Đã sử dụng",
+    "Active": "Còn trống"
   }
 }

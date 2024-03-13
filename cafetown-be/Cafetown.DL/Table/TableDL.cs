@@ -19,7 +19,7 @@ namespace Cafetown.DL.Table
         {
             _connectionDL = connectionDL;
         }
-        
+
         public override void GetValueProperties(TableManager record, PropertyInfo[] properties, DynamicParameters parameters)
         {
             parameters.Add($"TableManagerName", record.TableManagerName);
@@ -52,7 +52,61 @@ namespace Cafetown.DL.Table
 
             return list;
         }
+
+        public async Task<bool> UpdateStatus(Guid tableID, string status)
+        {
+            // Chuẩn bị chuỗi kết nối
+            var connectionString = DataContext.ConnectionString;
+
+            var queryText = "Proc_TableManager_UpdateStatus";
+            var parameters = new DynamicParameters();
+            parameters.Add("$TableManagerID", tableID);
+            parameters.Add("$Status", status);
+
+
+            // Khai báo kết quả trả về;
+            var numberOfAffectedRows = 0;
+            // Khởi tạo kết nối đến DB
+            using (var mySqlConnection = _connectionDL.InitConnection(connectionString))
+            {
+                // Gọi vào DB để chạy stored ở trên
+                numberOfAffectedRows = _connectionDL.Execute(mySqlConnection, queryText, parameters, commandType: System.Data.CommandType.StoredProcedure);
+
+            }
+
+            if (numberOfAffectedRows > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> UpdateNumberUse(Guid tableID)
+        {
+            // Chuẩn bị chuỗi kết nối
+            var connectionString = DataContext.ConnectionString;
+
+            var queryText = "Proc_TableManager_UpdateNumber";
+            var parameters = new DynamicParameters();
+            parameters.Add("$TableManagerID", tableID);
+
+            // Khai báo kết quả trả về
+            var numberOfAffectedRows = 0;
+            // Khởi tạo kết nối đến DB
+            using (var mySqlConnection = _connectionDL.InitConnection(connectionString))
+            {
+                // Gọi vào DB để chạy stored ở trên
+                numberOfAffectedRows = _connectionDL.Execute(mySqlConnection, queryText, parameters, commandType: System.Data.CommandType.StoredProcedure);
+
+            }
+
+            if (numberOfAffectedRows > 0)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 
-    
+
 }

@@ -227,9 +227,10 @@ export default {
       Enum: Enum, // dùng để gọi Enum trong template
       isChaged: false, // dùng để check xem có thay đổi dữ liệu hay không
       inventoryList: [], // danh sách phòng ban
+      textTableFilter: "Còn trống",
       url: {
         inventoryCategory: "http://localhost:59997/api/v1/Inventories",
-        tableManager: "http://localhost:59997/api/v1/Tables/getAllFilter",
+        tableManager: `http://localhost:59997/api/v1/Tables/getAllFilter?text=Còn trống`,
       },
       intoMoney: 0,
       quantityExport: 0,
@@ -494,6 +495,13 @@ export default {
       const response = await me.$api.inventory.updateInventory(me.inventory); // gọi api update nhân viên
       if (response.status == Enum.MISA_CODE.SUCCESS) {
         me.$emit("updateInventoryOut", me.inventory); // emit giá trị inventory vừa cập nhật
+        
+        let objectUpdate = {
+          tableManagerID: me.tableInfor.tableManagerID,
+          status: "Đã sử dụng"
+        }
+        const resUpdateStatus = await me.$api.table.updateStatusTable(objectUpdate);
+        if(resUpdateStatus) console.log(resUpdateStatus);
         return Promise.resolve(true);
       }
     },
@@ -770,4 +778,5 @@ export default {
 .image__input input {
   width: 71px;
 }
+
 </style>

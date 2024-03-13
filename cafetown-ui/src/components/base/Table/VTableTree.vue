@@ -103,7 +103,7 @@
 import { formatDate, convertGender, formatCurrency, convertStatus } from '@/utils/format';
 import Enum from '@/utils/enum';
 import VTableFilter from './VTableFilter'
-import format from '@/utils/format';
+// import format from '@/utils/format';
 export default {
     name: "VTable",
     components: {
@@ -395,15 +395,16 @@ export default {
          */
         applyFilter(value) {
             if (value.value || value.condition == Enum.FilterConditon.IsNotNull || value.condition == Enum.FilterConditon.IsNull) {
-                let filter = {
-                    key: value.key,
-                    value: format.removeDatabaseInjection(value.value),
-                    condition: value.condition,
-                    conditionName: value.conditionName,
-                    title: value.title,
-                    selectedOption: value.selectedOption,
-                }
-                this.$store.commit('addItemFilter', filter);
+                // let filter = {
+                //     key: value.key,
+                //     value: format.removeDatabaseInjection(value.value),
+                //     condition: value.condition,
+                //     conditionName: value.conditionName,
+                //     title: value.title,
+                //     selectedOption: value.selectedOption,
+                // }
+                // this.$store.commit('addItemFilter', filter);
+                this.$emit("applyFilterHeader",value);
             }
             this.closeFilterPopup();
         },

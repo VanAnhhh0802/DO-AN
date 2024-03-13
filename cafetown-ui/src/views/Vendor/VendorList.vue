@@ -54,7 +54,7 @@
             </v-pagination>
 
             <!-- Form sửa và thêm nhân viên -->
-            <vendor-detail v-model="showInventoryItemForm" @insertInventoryItem="insertInventoryItem" @updateInventoryItem="updateEmployee" :isAdd="isAdd" >
+            <vendor-detail v-model="showInventoryItemForm" @insertVendor="insertVendor" @updateVendor="updateVendor" :isAdd="isAdd" >
             </vendor-detail>
             <!-- Khu vực hiển thị popup và toast thông báo -->
             <v-popup ref="popup"></v-popup>
@@ -184,6 +184,10 @@ export default {
                     {
                         'key': Enum.ACTION.DELETE,
                         'value': this.$t('action.delete'),
+                    },
+                    {
+                        'key': Enum.ACTION.USE,
+                        'value': this.$t('action.use'),
                     }
                 ]; // Khởi tạo danh sách action trên từng dòng
             }
@@ -268,6 +272,9 @@ export default {
                     case Enum.ACTION.RELOAD: // tổ hợp phím Ctrl + R để reload lại table
                         this.handleAction(Enum.ACTION.RELOAD);
                         break;
+                    case Enum.ACTION.USE: // tổ hợp phím Ctrl + R để reload lại table
+                        this.handleAction(Enum.ACTION.USE);
+                        break;
                     default:
                         break;
                 }
@@ -303,7 +310,7 @@ export default {
                         me.duplicateEmployee(data);
                         break;
                     case Enum.ACTION.INACTIVE:
-                        me.$root.$toast.info(me.$t('notice_message.developing'));
+                        me.handleInactive(data);
                         break;
                     case Enum.ACTION.RELOAD: // Tải lại danh sách nhân viên
                         me.reloadData();
@@ -315,6 +322,17 @@ export default {
             } catch (error) {
                 console.log(error);
             }
+        },
+        async handleInactive(data){
+            if(!data) return;
+            const self = this;
+            data.inactive = "Ngừng sử dụng";
+            const response = await self.$api.vendor.updateVendor(data); // gọi api update nhân viên
+            if (response.status == Enum.MISA_CODE.SUCCESS) {
+                console.log("true");
+                return Promise.resolve(true);
+            }
+            console.log(data);
         },
         /**
          * @description: Hàm này dùng để hiển thị form thêm mới nhân viên
@@ -471,7 +489,7 @@ export default {
          * @param: {Object} employee - Dữ liệu của nhân viên
          * Author: hvanh 01/10/2022
          */
-        insertInventoryItem(vendor) {
+        insertVendor(vendor) {
             const me = this;
             try {
                 me.stockList.data.unshift(vendor); // Thêm nhân viên vào đầu mảng
@@ -486,7 +504,7 @@ export default {
          * @description: Hàm này dùng để cập nhật nhân viên ở bên frontend
          * Author: hvanh 05/10/2022
          */
-        updateEmployee(vendor) {
+        updateVendor(vendor) {
             const me = this;
             try {
                 const index = me.stockList.data.findIndex((item) => item.vendorID === vendor.vendorID);

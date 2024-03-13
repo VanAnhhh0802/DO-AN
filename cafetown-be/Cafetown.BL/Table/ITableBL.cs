@@ -11,5 +11,6 @@ namespace Cafetown.BL.Table
     public interface ITableBL : IBaseBL<TableManager>
     {
         Task<List<TableManager>> GetAllFilter(string textFilter);
+        Task<bool> UpdateStatus(Guid tableID, string status);
     }
 }

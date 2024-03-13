@@ -22,6 +22,29 @@
               className="v-input__with-icon"
               :focus="true"
             />
+            <!-- <div class="filter-header" v-if="pagination.keyword">
+              <div class="filter-header-title">Điều kiện lọc: </div>
+              <div>
+              {{ pagination.keyword }}
+              </div>
+              <div @click="handleRemoveFilter" class="filter-header-remove">Bỏ lọc</div>
+            </div> -->
+            <div class="col l-8 md-8 table-filter">
+              <div class="v-table__column-filter">
+                <div class="v-table__column-filter--text">
+                  {{ $t("invoice_page.filter") }}:
+                </div>
+              </div>
+              <v-combobox
+                position="bottom"
+                propKey="key"
+                propValue="value"
+                v-model="selectedOptions"
+                :data="listOptions"
+                :selectBox="true"
+              >
+              </v-combobox>
+            </div>
           </slot>
         </div>
         <div class="employee-body__toolbar-right">
@@ -46,6 +69,7 @@
         :actions="tableAction"
         :isDataLoaded="isDataLoaded"
         customAction
+        @applyFilterHeader="handleFilterHeader"
       >
       </v-table>
       <!-- Phân trang -->
@@ -64,11 +88,17 @@
         :isAdd="isAdd"
       >
       </table-detail>
-      <inventory-out-form
+      <!-- <inventory-out-form
         v-model="showUserManagerDetail"
         :infoTable="itemTable"
       >
-      </inventory-out-form>
+      </inventory-out-form> -->
+      <invoice-form
+      v-model="showUserManagerDetail"
+      :itemTable="itemTable"
+      ></invoice-form>
+      
+
 
       <!-- Khu vực hiển thị popup và toast thông báo -->
       <v-popup ref="popup"></v-popup>
@@ -79,14 +109,13 @@
 <script>
 import Enum from "@/utils/enum";
 import TableDetail from "./TableDetail.vue";
-import InventoryOutForm from "@/views/inventory/InventoryOutForm.vue";
-
+import InvoiceForm from '../invoice/InvoiceForm.vue';
 // import { mapGetters } from 'vuex';
 
 export default {
   components: {
     TableDetail,
-    InventoryOutForm,
+    InvoiceForm
   },
   data() {
     return {
@@ -105,8 +134,8 @@ export default {
       isDataLoaded: false, // biến này dùng để kiểm tra dữ liệu đã được load hay chưa
       listOptions: [
         { key: 2, value: this.$t("filter.all") },
-        { key: 1, value: this.$t("filter.is_manager") },
-        { key: 0, value: this.$t("filter.is_employee") },
+        { key: 1, value: this.$t("filter.Inactive") },
+        { key: 0, value: this.$t("filter.Active") },
       ],
       selectedOptions: 2,
       isAdd: true,
@@ -151,6 +180,16 @@ export default {
             title: this.$t(`table_list.status`),
             key: "status",
             filterable: true,
+            filterOptions: [
+              {
+                key: "Còn trống",
+                value: "Còn trống",
+              },
+              {
+                key: "Đã sử dụng",
+                value: "Đã sử dụng",
+              },
+            ],
           },
           {
             title: this.$t(`table_list.action`),
@@ -206,7 +245,13 @@ export default {
   watch: {
     selectedOptions: {
       handler: function (newVal) {
-        this.pagination.filter = newVal;
+        if (newVal == 1) {
+          this.pagination.keyword = "Đã sử dụng";
+        } else if (newVal == 0) {
+          this.pagination.keyword = "Còn trống";
+        } else {
+          this.pagination.keyword = "";
+        }
         this.getStockList();
         console.log(newVal + ": ", this.stockList);
       },
@@ -226,7 +271,7 @@ export default {
      */
     pagination: {
       handler: function (newVal) {
-        this.getEmployeeList(newVal);
+        this.getStockList(newVal);
       },
       deep: true,
     },
@@ -287,6 +332,18 @@ export default {
   },
 
   methods: {
+    async handleRemoveFilter() {
+      const me = this;
+      me.pagination.keyword = "";
+      await me.getStockList();
+    },
+    async handleFilterHeader(data) {
+      if (!data) return;
+
+      const me = this;
+      me.pagination.keyword = data.value;
+      await me.getStockList();
+    },
     /**
      * @description: Thực hiện các action như thêm mới, sửa, xóa, xóa nhiều, tải lại dữ liệu, xuất ra excel
      * @param {string} action - Tên của action
@@ -335,10 +392,18 @@ export default {
         console.log(error);
       }
     },
-    handleUseTable(data){
+    handleUseTable(data) {
       const me = this;
-      if(!data) return;
-      me.itemTable = data;
+      if (!data) return;
+      
+      let dataItem = {
+        tableManagerID: data.tableManagerID,
+        tableManagerCode: data.tableManagerCode,
+        tableManagerName: data.tableManagerName,
+        capacity: data.capacity,
+      }
+      me.itemTable = dataItem;
+      me.$store.dispatch('setMode', Enum.FORM_MODE.ADD);
       me.showUserManagerDetail = true;
     },
     /**
@@ -586,8 +651,8 @@ export default {
 
     me.listOptions = [
       { key: 2, value: this.$t("filter.all") },
-      { key: 1, value: this.$t("filter.is_manager") },
-      { key: 0, value: this.$t("filter.is_employee") },
+      { key: 1, value: this.$t("filter.Inactive") },
+      { key: 0, value: this.$t("filter.Active") },
     ];
   },
 };
@@ -647,5 +712,23 @@ export default {
   font-family: "MISA Fonts Bold";
   font-size: 14px;
   margin-left: 24px;
+}
+.filter-header {
+  margin-left: 16px;
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  &-title {
+    font-weight: 700;
+  }
+  &-remove {
+    color: red;
+    cursor: pointer;
+  }
+}
+.table-filter {
+  display: flex;
+  align-items: center;
+  margin-left: 1px;
 }
 </style>

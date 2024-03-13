@@ -33,6 +33,6 @@ namespace Cafetown.Common.Entities
 
         [ExcelColumnName("Số lần bàn được sử dụng")]
 
-        public int? NumberUses { get; set; }
+        public int NumberUses { get; set; } = 0;
     }
 }

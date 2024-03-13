@@ -786,7 +786,7 @@ export default {
                     self.dataApi = self.data;
                     self.filterData = self.data;
                 } else {
-                    self.dataApi = createArrayTreeName(self.data, self.tree.id, self.tree.propName, self.tree.parentId);
+                    // self.dataApi = createArrayTreeName(self.data, self.tree.id, self.tree.propName, self.tree.parentId);
                     self.filterData = self.dataApi;
                 }
             }

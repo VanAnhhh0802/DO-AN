@@ -177,7 +177,7 @@
                 <v-menu
                   :propKey="row"
                   @onSelect="onSelect"
-                  :items="actions"
+                  :items="handleActionMenu(row)"
                   :columns="columns"
                   :customAction="customAction"
                 >
@@ -272,7 +272,7 @@ import {
 } from "@/utils/format";
 import Enum from "@/utils/enum";
 import VTableFilter from "./VTableFilter";
-import format from "@/utils/format";
+// import format from "@/utils/format";
 export default {
   name: "VTable",
   components: {
@@ -425,6 +425,17 @@ export default {
     },
   },
   methods: {
+    handleActionMenu(data){
+      const me = this;
+      if(!data || !me.action || me.action.length <= 0) return;
+      console.log(me.action);
+      me.action.forEach(element => {
+        if(element.key == Enum.ACTION.USE && data.inactive && data.inactive === 'Đang sử dụng'){
+          element.value = 'Ngừng sử dụng'
+        }
+      });
+    },
+
     /**
      * @description: Hàm này dùng để tạo hiệu ứng loading sau khi dữ liệu được load xong
      * @param: {any}
@@ -530,15 +541,15 @@ export default {
         value.condition == Enum.FilterConditon.IsNotNull ||
         value.condition == Enum.FilterConditon.IsNull
       ) {
-        let filter = {
-          key: value.key,
-          value: format.removeDatabaseInjection(value.value),
-          condition: value.condition,
-          conditionName: value.conditionName,
-          title: value.title,
-          selectedOption: value.selectedOption,
-        };
-        this.$store.commit("addItemFilter", filter);
+        // let filter = {
+        //   key: value.key,
+        //   value: format.removeDatabaseInjection(value.value),
+        //   condition: value.condition,
+        //   conditionName: value.conditionName,
+        //   title: value.title,
+        //   selectedOption: value.selectedOption,
+        // };
+        this.$emit("applyFilterHeader", value);
       }
       this.closeFilterPopup();
     },

@@ -57,4 +57,8 @@ export default (axios) => ({
   updateTable(object) {
     return axios.put(`${PREFIX_EMPLOYEE}/${object.tableManagerID}`, object);
   },
+  updateStatusTable(object){
+    return axios.put(`${PREFIX_EMPLOYEE}/update-status`, object);
+  }
+
 });

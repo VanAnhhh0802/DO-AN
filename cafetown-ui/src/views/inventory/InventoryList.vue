@@ -3,9 +3,9 @@
     <div class="employee-header">
       <div class="employee-title">{{ $t("inventory_page.title") }}</div>
       <div class="employee-right">
-        <v-button @click="showOutForm">
+        <!-- <v-button @click="showOutForm">
           {{ $t("inventory_page.out_inventory") }}
-        </v-button>
+        </v-button> -->
         <v-button @click="handleAction(Enum.ACTION.ADD)">
           {{ $t("inventory_page.add_inventory") }}
         </v-button>
@@ -91,9 +91,9 @@
     ></inventory-form>
 
     <!-- Form xuất hàng hóa -->
-    <inventory-out-form
+    <!-- <inventory-out-form
       v-model="showInventoryOutForm"
-    ></inventory-out-form>
+    ></inventory-out-form> -->
     <!-- Khu vực hiển thị popup và toast thông báo -->
     <v-popup ref="popup"></v-popup>
     <v-toast ref="toast" :showProgress="true" :maxMessage="10"></v-toast>
@@ -101,11 +101,14 @@
 </template>
 <script>
 import InventoryForm from "./InventoryForm.vue";
-import InventoryOutForm from "./InventoryOutForm.vue";
+// import InventoryOutForm from "./InventoryOutForm.vue";
 import Enum from "@/utils/enum";
 import { mapGetters } from "vuex";
 export default {
-  components: { InventoryForm, InventoryOutForm },
+  components: { 
+    InventoryForm, 
+    //InventoryOutForm 
+  },
   data() {
     return {
       keyword: "", // biến này dùng để lưu từ khóa tìm kiếm
