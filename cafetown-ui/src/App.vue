@@ -22,6 +22,9 @@ export default {
       collapsed: false
     };
   },
+  created(){
+   
+  },
   methods: {
     /**
      * Đóng mở sidebar

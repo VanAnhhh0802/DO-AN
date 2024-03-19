@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import forbidden from "@/views/login/layoutName403";
 
 function lazyLoad(view) {
   return () => import(`@/views/${view}.vue`);
@@ -9,6 +10,11 @@ const router = [
     path: "/",
     redirect: "/dang-nhap",
     
+  },
+  {
+    path: "/403",
+    name: "forbidden",
+    component: forbidden,
   },
   {
     path: '/dang-nhap',
@@ -103,6 +109,7 @@ const router = [
       order: 10,
     },
   },
+  
 ];
 
 // Khởi tạo router
@@ -114,7 +121,16 @@ const routes = createRouter({
 // Cập nhật meta title cho từng route
 routes.beforeEach((to, from, next) => {
   document.title = to.meta.title;
+
+  let token = localStorage.getItem('JWT');
+  let userName = localStorage.getItem('UserName');
+  console.log(token, userName);
+  // if(token && userName) {
+  // }
   next();
+  // else {
+  //   next('/403');
+  // }
 });
 
 export default routes;

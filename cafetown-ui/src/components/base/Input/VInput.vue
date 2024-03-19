@@ -49,7 +49,7 @@
                 <label class="label_custom">{{ label_custom }}</label>
             </label>
             <!-- Icon for input -->
-            <div class="v-input__icon" v-if="icon">
+            <div class="v-input__icon" v-if="icon" @click="onClickIcon">
                 <div :class="icon"></div>
                 <slot name="icon"></slot>
             </div>
@@ -311,6 +311,9 @@ export default {
         },
     },
     methods: {
+        onClickIcon(){
+                  this.$emit('onClickIcon');
+        },
 
         numbersOnly(evt) {
             evt = (evt) ? evt : window.event;
@@ -524,4 +527,24 @@ export default {
 </script>
 <style scoped lang="scss">
 @import "@/assets/scss/base/input.scss";
+.ms-icon-eyes-show {
+  background: url("@/assets/img/Sprites.64af8f61.svg") no-repeat;
+  background-position: -932px -91px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 16px;
+  height: 16px;
+}
+.ms-icon-eyes-hide {
+  background: url("@/assets/img/Sprites.64af8f61.svg") no-repeat;
+  background-position: -988px -91px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 16px;
+  height: 16px;
+}
 </style>

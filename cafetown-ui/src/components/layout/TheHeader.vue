@@ -25,11 +25,11 @@
             <div class="header__user d-flex align-items-center p-x-3 ml-r-3">
                 <v-tooltip style="display: flex;" :content="$t('login.view')">
                     <div class="ms-32 ms-icon ms-round ms-icon-small-user ms-l-2" @click="showInformationForm"></div>
-                    <div class="m-2 font-weight-600 font-size-13 cursor-pointer" @click="showInformationForm"> {{ authen.employeeName }} </div>
+                    <div class="m-2 font-weight-600 font-size-13 cursor-pointer" @click="showInformationForm"> {{ getUserName }} </div>
                 </v-tooltip>
 
                 <v-tooltip style="display: flex;" :content="$t('login.log_out')">
-                    <div class="m-2 font-weight-600 font-size-13 cursor-pointer logout">
+                    <div class="m-2 font-weight-600 font-size-13 cursor-pointer logout" @click="logout">
                         <router-link to="/dang-nhap">
                             {{ $t('login.log_out') }}
                         </router-link>
@@ -74,18 +74,17 @@ export default {
             return this.$i18n.locale;
         },
 
-        authen() {
-            let authencator = this.$store.getters.getPermission;
-            let authencatorFake = {
-                employeeName: 'Hồ Văn Anh'
-            };
-
-            if(authencator) {
-                return authencator;
+        getUserName() {
+            //Kiểm tra đăng nhập có ở local storage hay không
+            let userName = localStorage.getItem('UserName');
+            if(userName) {
+                console.log('userName', userName);
             }
-
-            return authencatorFake;
+            return userName;
         }
+    },
+    created(){
+        //lấy thông tin
     },
     watch: {
         $store: {
@@ -140,6 +139,17 @@ export default {
                 console.log(error);
             }
         },
+
+        /**
+         * Hàm xử lý đăng xuất
+         */
+        logout(){
+            //Xóa thông tin đăng nhập lưu ở token
+            localStorage.removeItem('JWT');
+            localStorage.removeItem('UserName');
+            localStorage.removeItem('IsManager');
+            console.log('logout');
+        }
     },
 }
 </script>

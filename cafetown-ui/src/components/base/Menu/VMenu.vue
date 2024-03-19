@@ -9,11 +9,18 @@
       >
         {{ $t("action.edit") }}
       </div>
-      <div v-if="customAction" 
-      class="v-menu__button"
+      <slot name="customMenu">
+        
+      </slot>
+
+      <!-- <div
+        v-if="customAction"
+        class="v-menu__button"
         tabindex="-1"
         @click="handleSelect({ key: 'use' })"
-      >{{$t("action.use")}}</div>
+      >
+        {{ $t("action.use") }}
+      </div> -->
       <div class="v-menu__dropdown">
         <div
           class="v-menu__icon"
@@ -65,9 +72,9 @@ export default {
       default: () => [],
     },
     customAction: {
-        type: Boolean,
+      type: Boolean,
       default: false,
-    }
+    },
   },
   data() {
     return {

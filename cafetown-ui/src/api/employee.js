@@ -82,7 +82,10 @@ export default (axios) => ({
    * @return {Promise} Promise
    * Author: hvanh 1/3/2023
    */
-  updateEmployeeLogin(object) {
+  updateEmployeeLogin(object, password) {
+    if(password){
+      object.password = password;
+    }
     return axios.put(`${PREFIX_EMPLOYEE}/login/${object.employeeID}`, object);
   },
   /**

@@ -9,6 +9,7 @@ import FlagIcon from "vue-flag-icon";
 import i18n from "@/locales/i18n";
 import outsideClickDirective from "./directives/outsideClick";
 import outsideClickTeleport from "./directives/outsideClickTeleport";
+import commonFn from '@/utils/commonFunction'
 //import auth from "@/authentication";
 
 const app = createApp(App); // Khởi tạo app
@@ -19,6 +20,7 @@ app.config.globalProperties.$isManager = false;
 app.use(routes); // Sử dụng router
 
 app.config.globalProperties.$api = callAPI; // Đăng ký api
+app.config.globalProperties.$commonFn = commonFn; // Đăng ký commonFn
 
 Object.keys(components).forEach((key) => {
   app.component(key, components[key]); // Đăng ký các component
@@ -28,6 +30,7 @@ app.directive("click-outside", outsideClickDirective); // Đăng ký directive
 app.directive("click-outside-teleport", outsideClickTeleport); // Đăng ký directive
 
 app.use(store); // Sử dụng store
+// app.use(commonFn); // Sử dụng store
 app.use(FlagIcon); // Sử dụng flag-icon
 //app.use(auth); // Sử dụng authen
 app.use(i18n); // Sử dụng i18n

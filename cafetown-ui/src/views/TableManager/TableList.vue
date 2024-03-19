@@ -64,13 +64,18 @@
       <!-- Table hiển thị danh sách nhân viên -->
       <v-table
         v-model:columns="columns"
-        :data="stockList.data"
+        :data="stockList.data" 
         @action="handleAction"
         :actions="tableAction"
         :isDataLoaded="isDataLoaded"
         customAction
         @applyFilterHeader="handleFilterHeader"
       >
+      <template #customMenu>
+        <div>
+          
+        </div>
+      </template>
       </v-table>
       <!-- Phân trang -->
       <v-pagination

@@ -181,6 +181,9 @@
                   :columns="columns"
                   :customAction="customAction"
                 >
+                <template #customMenu>
+                  <slot name="customMenu"></slot>
+                </template>
                 </v-menu>
               </template>
               <template v-else-if="column.formatter">

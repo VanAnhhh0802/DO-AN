@@ -172,10 +172,18 @@ export default {
                 }
 
                 if (pass) {
-                    const response = await me.$api.authen.login(me.username, me.password);
-                    if (response && response.status == Enum.MISA_CODE.SUCCESS) {  
+                    //Convert pass về dạng base64
+                    let passwordConvert = this.$commonFn.convertToBase64(me.password);
+                    const response = await me.$api.authen.login(me.username, passwordConvert);
+                    if (response && response.status == Enum.MISA_CODE.SUCCESS && response.data) {  
+                        console.log("token", response.data);
                         this.$store.commit('setPermission', response.data);              
-                        this.$router.push('/tong-quan')
+                        this.$router.push('/tong-quan');
+                        //Lưu thồng tin token vào local storage
+                        localStorage.setItem('JWT',response.data.token);
+                        localStorage.setItem('UserName',response.data.userName);
+                        localStorage.setItem('IsManager',response.data.isManager);
+
                     } else {
                         me.messageError = me.$t('login.error_message.userAndPassword');
                         me.showDialog = true;
