@@ -1,11 +1,16 @@
 ﻿using Cafetown.BL;
 using Cafetown.Common;
+using Cafetown.Common.Entities.DTO;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using MimeKit;
 using MimeKit.Text;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace Cafetown.API.Controllers
@@ -68,13 +73,50 @@ namespace Cafetown.API.Controllers
         {
             try
             {
-                var employee = _employeeBL.login(username, password);
+
+                byte[] bytes = Convert.FromBase64String(password);
+                string pass = Encoding.UTF8.GetString(bytes);
+                var employee = _employeeBL.login(username, pass);
 
                 if (employee != null)
                 {
-                    return StatusCode(StatusCodes.Status200OK, employee);
-                } 
-                else 
+                    if (employee.Password != null)
+                    {
+                        //Convert thành base64
+                        byte[] bytesPass = Encoding.UTF8.GetBytes(employee.Password);
+                        employee.Password = Convert.ToBase64String(bytesPass);
+                    }
+                    var claims = new[]
+                    {
+                        new Claim(ClaimTypes.Name, employee.EmployeeName),
+                        // Thêm các claim khác tùy theo yêu cầu của ứng dụng
+                    };
+                    // gen token
+                    // Tạo khóa bí mật từ chuỗi
+                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your_secret_key_here_asda_dasda_ads"));
+
+                    // Tạo mã xác thực (credentials) từ khóa bí mật
+                    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+                    // Tạo token
+                    var token = new JwtSecurityToken(
+                        issuer: "",
+                        audience: "",
+                        claims: claims,
+                        expires: DateTime.Now.AddMinutes(1), // Thời gian hết hạn của token
+                        signingCredentials: creds);
+
+                    // Trả về token dưới dạng chuỗi
+                    var jsonToken = new JwtSecurityTokenHandler().WriteToken(token);
+
+                    return StatusCode(StatusCodes.Status200OK, new LoginResult
+                    {
+                        Token = jsonToken,
+                        UserName = employee.EmployeeName,
+                        IsManager = employee.IsManager
+                    });
+                }
+                else
                 {
                     return StatusCode(StatusCodes.Status400BadRequest, new ErrorResult
                     {
@@ -156,16 +198,16 @@ namespace Cafetown.API.Controllers
         /// <returns>ID của bản ghi vừa sửa</returns>
         /// Created by: TTTuan (23/12/2022)
         [HttpPost("sendMail/{mail}")]
-        public IActionResult SendEmail([FromRoute] string mail = "tuanlinhtx02@gmail.com")
+        public IActionResult SendEmail([FromRoute] string mail = "hovananh2312@gmail.com")
         {
             try
             {
                 _employeeBL.UpdateByEmail(mail);
 
                 var email = new MimeMessage();
-                email.From.Add(MailboxAddress.Parse("trantuandev26@gmail.com"));
+                email.From.Add(MailboxAddress.Parse("hovananh2312@gmail.com"));
                 email.To.Add(MailboxAddress.Parse(mail));
-                email.Subject = "Mật khẩu tài khoản quản lý cửa hàng cafe Thái Tuấn của bạn đã được reset";
+                email.Subject = "Mật khẩu tài khoản quản lý cửa hàng cafe Văn Anh của bạn đã được reset";
                 email.Body = new TextPart(TextFormat.Html)
                 {
                     Text = AuthenResource.ResetPassword
@@ -173,7 +215,7 @@ namespace Cafetown.API.Controllers
 
                 using var smtp = new SmtpClient();
                 smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-                smtp.Authenticate("trantuandev26@gmail.com", "mmcasyotjpbirixx");
+                smtp.Authenticate("hovananh2312@gmail.com", "mmcasyotjpbirixx");
                 smtp.Send(email);
                 smtp.Disconnect(true);
 

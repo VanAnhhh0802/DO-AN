@@ -13,14 +13,14 @@
         
       </slot>
 
-      <!-- <div
+      <div
         v-if="customAction"
         class="v-menu__button"
         tabindex="-1"
         @click="handleSelect({ key: 'use' })"
       >
         {{ $t("action.use") }}
-      </div> -->
+      </div>
       <div class="v-menu__dropdown">
         <div
           class="v-menu__icon"

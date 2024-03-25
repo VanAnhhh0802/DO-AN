@@ -15,6 +15,8 @@ const router = [
     path: "/403",
     name: "forbidden",
     component: forbidden,
+    meta: {
+    }
   },
   {
     path: '/dang-nhap',
@@ -129,7 +131,7 @@ routes.beforeEach((to, from, next) => {
   // }
   next();
   // else {
-  //   next('/403');
+  //   return next({name: 'forbidden'});
   // }
 });
 

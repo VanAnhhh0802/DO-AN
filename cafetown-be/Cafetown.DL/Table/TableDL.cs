@@ -20,13 +20,13 @@ namespace Cafetown.DL.Table
             _connectionDL = connectionDL;
         }
 
-        public override void GetValueProperties(TableManager record, PropertyInfo[] properties, DynamicParameters parameters)
-        {
-            parameters.Add($"TableManagerName", record.TableManagerName);
-            parameters.Add($"TableManagerCode", record.TableManagerCode);
-            parameters.Add($"Capacity", record.Capacity);
-            parameters.Add($"ModifiedDate", record.ModifiedDate);
-        }
+        //public override void GetValueProperties(TableManager record, PropertyInfo[] properties, DynamicParameters parameters)
+        //{
+        //    parameters.Add($"TableManagerName", record.TableManagerName);
+        //    parameters.Add($"TableManagerCode", record.TableManagerCode);
+        //    parameters.Add($"Capacity", record.Capacity);
+        //    parameters.Add($"ModifiedDate", record.ModifiedDate);
+        //}
 
         public async Task<List<TableManager>> GetAllFilter(string textFilter)
         {
