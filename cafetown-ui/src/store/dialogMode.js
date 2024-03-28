@@ -12,6 +12,7 @@ const dialogMode = {
     inventoryId: null, // id của hàng hóa
     invoiceId: null, // id của hóa đơn
     informationId: null, // id thông tin cá nhân
+    employeeName: null,
   },
   mutations: {
     /**
@@ -28,6 +29,11 @@ const dialogMode = {
     setEmployeeId(state, employeeId) {
       state.employeeId = employeeId;
     },
+    
+    setEmployeeName(state, employeeName) {
+      state.employeeName = employeeName;
+    },
+
     setVendorId(state, vendorId) {
       state.vendorId = vendorId;
     },
@@ -78,6 +84,10 @@ const dialogMode = {
     setEmployeeId({ commit }, employeeId) {
       commit("setEmployeeId", employeeId);
     },
+    setEmployeeName({ commit }, employeeName) {
+      commit("setEmployeeName", employeeName);
+    },
+
     setVendorId({ commit }, vendorId) {
       commit("setVendorId", vendorId);
     },
@@ -127,6 +137,9 @@ const dialogMode = {
      */
     getEmployeeId(state) {
       return state.employeeId;
+    },
+    getEmployeeName(state) {
+      return state.employeeName;
     },
     getVendorId(state) {
       return state.vendorId;

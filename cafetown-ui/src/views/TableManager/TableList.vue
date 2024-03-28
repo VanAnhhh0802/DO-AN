@@ -71,11 +71,6 @@
         customAction
         @applyFilterHeader="handleFilterHeader"
       >
-      <template #customMenu>
-        <div>
-          
-        </div>
-      </template>
       </v-table>
       <!-- Phân trang -->
       <v-pagination
@@ -90,6 +85,7 @@
         v-model="showInventoryItemForm"
         @insertInventoryItem="insertInventoryItem"
         @updateInventoryItem="updateEmployee"
+        @Reload="getStockList"
         :isAdd="isAdd"
       >
       </table-detail>
@@ -101,7 +97,7 @@
       <invoice-form
       v-model="showUserManagerDetail"
       :itemTable="itemTable"
-      @ReloadData="reloadData"
+      @ReloadData="getStockList"
       ></invoice-form>
       
       <!-- Khu vực hiển thị popup và toast thông báo -->

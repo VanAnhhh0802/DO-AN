@@ -489,12 +489,14 @@ export default {
          * @param: {Object} employee - Dữ liệu của nhân viên
          * Author: hvanh 01/10/2022
          */
-        insertVendor(vendor) {
+        async insertVendor(vendor) {
             const me = this;
             try {
                 me.stockList.data.unshift(vendor); // Thêm nhân viên vào đầu mảng
+                console.log(vendor);
                 me.$root.$toast.success(me.$t('notice_message.insert_success', [vendor.vendorCode]));
                 me.stockList.totalRecord += 1; // Tăng tổng số bản ghi lên 1
+                await this.getStockList();
             } catch (error) {
                 me.$root.$toast.error(me.$t('notice_message.insert_fail', [vendor.vendorCode]));
                 console.log(error);

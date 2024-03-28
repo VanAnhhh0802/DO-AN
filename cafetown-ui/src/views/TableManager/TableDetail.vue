@@ -393,7 +393,7 @@ export default {
             if (self.tableManger[key] == null || self.tableManger[key] === "") {
               delete self.tableManger[key];
             }
-          });
+        });
           let result = true;
           switch (self.formMode) {
             case Enum.FORM_MODE.ADD: // nếu action form là add thì thực hiện insert
@@ -419,6 +419,7 @@ export default {
               default:
                 break;
             }
+            self.$emit("Reload");
           }
         }
       } catch (error) {

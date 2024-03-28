@@ -14,7 +14,7 @@
       </slot>
       <!-- Sử dụng -->
       <div
-        v-if="showInactive"
+        v-if="showInactive && customAction"
         class="v-menu__button"
         tabindex="-1"
         @click="handleSelect({ key: 'active' })"
@@ -23,7 +23,7 @@
       </div>
       <!-- Ngừng sử dụng -->
       <div
-        v-if="!showInactive"
+        v-if="!showInactive && customAction"
         class="v-menu__button"
         tabindex="-1"
         v-tooltip="{content: 'Ngừng sử dụng' }"

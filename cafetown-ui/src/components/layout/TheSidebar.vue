@@ -16,7 +16,7 @@
         </div>
         <div class="sidebar__content">
             <div class="sidebar__item__list">
-                <div v-for="(item, index) of routerLinks.filter((router) => permission ? router : router.sideBar.title == 'overview' || router.sideBar.title == 'manage_invoice' || router.sideBar.title == 'manage_inventory_item')" :key="index">
+                <div v-for="(item, index) of routerLinks.filter((router) => permission ? router : router.sideBar.title == 'overview' || router.sideBar.title == 'manage_invoice' || router.sideBar.title == 'manage_table')" :key="index">
                     <VRouterLink :link="item.path" :content="item.sideBar.title" :icon="item.sideBar.icon" />
                 </div>
             </div>
