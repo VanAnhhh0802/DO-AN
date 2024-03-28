@@ -54,11 +54,11 @@
             class="ms-24 ms-icon ms-icon-reload ms-r-2 ml-l-2"
             @click="handleAction(Enum.ACTION.RELOAD)"
           ></div>
-          <div
+          <!-- <div
             :tooltip="$t('action.export_excel')"
             class="ms-24 ms-icon ms-icon-excel ms-x-2"
             @click="handleAction(Enum.ACTION.EXPORT)"
-          ></div>
+          ></div> -->
         </div>
       </div>
       <!-- Table hiển thị danh sách nhân viên -->
@@ -101,10 +101,9 @@
       <invoice-form
       v-model="showUserManagerDetail"
       :itemTable="itemTable"
+      @ReloadData="reloadData"
       ></invoice-form>
       
-
-
       <!-- Khu vực hiển thị popup và toast thông báo -->
       <v-popup ref="popup"></v-popup>
       <v-toast ref="toast" :showProgress="true" :maxMessage="10"></v-toast>
@@ -325,8 +324,8 @@ export default {
           case Enum.ACTION.RELOAD: // tổ hợp phím Ctrl + R để reload lại table
             this.handleAction(Enum.ACTION.RELOAD);
             break;
-          case Enum.ACTION.USE: // tổ hợp phím Ctrl + R để reload lại table
-            this.handleAction(Enum.ACTION.USE);
+          case Enum.ACTION.ACTIVE: // tổ hợp phím Ctrl + R để reload lại table
+            this.handleAction(Enum.ACTION.ACTIVE);
             break;
           default:
             break;
@@ -379,7 +378,10 @@ export default {
             me.duplicateEmployee(data);
             break;
           case Enum.ACTION.INACTIVE:
-            me.$root.$toast.info(me.$t("notice_message.developing"));
+            me.handleInactiveStatusTable(data);
+            break;
+          case Enum.ACTION.ACTIVE:
+            me.handleUseTable(data);
             break;
           case Enum.ACTION.RELOAD: // Tải lại danh sách nhân viên
             me.reloadData();
@@ -387,9 +389,9 @@ export default {
           case Enum.ACTION.EXPORT: // Xuất file excel
             me.exportExcel();
             break;
-          case Enum.ACTION.USE: // Xuất file excel
-            me.handleUseTable(data);
-            break;
+          // case Enum.ACTION.USE: // Xuất file excel
+          //   me.handleUseTable(data);
+          //   break;
           default:
             break;
         }
@@ -410,6 +412,19 @@ export default {
       me.itemTable = dataItem;
       me.$store.dispatch('setMode', Enum.FORM_MODE.ADD);
       me.showUserManagerDetail = true;
+    },
+    async handleInactiveStatusTable(value){
+      const me = this;
+      if(!value) return;
+      console.log(value);
+      let objectUpdate = {
+          tableManagerID: value.tableManagerID,
+          status: "Còn trống"
+        }
+      let res = await me.$api.table.updateStatusTable(objectUpdate);
+      if(res){
+        await me.reloadData();
+      }
     },
     /**
      * @description: Hàm này dùng để hiển thị form thêm mới nhân viên

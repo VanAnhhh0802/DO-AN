@@ -40,8 +40,8 @@
                     <div :tooltip="$t('action.reload_data')" class="ms-24 ms-icon ms-icon-reload ms-r-2 ml-l-2"
                         @click="handleAction(Enum.ACTION.RELOAD)">
                     </div>
-                    <div :tooltip="$t('action.export_excel')" class="ms-24 ms-icon ms-icon-excel ms-x-2"
-                        @click="handleAction(Enum.ACTION.EXPORT)"></div>
+                    <!-- <div :tooltip="$t('action.export_excel')" class="ms-24 ms-icon ms-icon-excel ms-x-2"
+                        @click="handleAction(Enum.ACTION.EXPORT)"></div> -->
                 </div>
             </div>
             <!-- Table hiển thị danh sách nhân viên -->

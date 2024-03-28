@@ -12,15 +12,27 @@
       <slot name="customMenu">
         
       </slot>
-
+      <!-- Sử dụng -->
       <div
-        v-if="customAction"
+        v-if="showInactive"
         class="v-menu__button"
         tabindex="-1"
-        @click="handleSelect({ key: 'use' })"
+        @click="handleSelect({ key: 'active' })"
       >
         {{ $t("action.use") }}
       </div>
+      <!-- Ngừng sử dụng -->
+      <div
+        v-if="!showInactive"
+        class="v-menu__button"
+        tabindex="-1"
+        v-tooltip="{content: 'Ngừng sử dụng' }"
+        @click="handleSelect({ key: 'inactive' })"
+      >
+        {{ $t("action.don_use") }}
+      </div>
+      
+
       <div class="v-menu__dropdown">
         <div
           class="v-menu__icon"
@@ -123,6 +135,12 @@ export default {
         return true;
       }
     },
+    showInactive(){
+      const me = this;
+      if(!me.propKey) console.log("Không có data ở vment");
+      if(me.propKey.status === 'Còn trống') return true;
+      return false;
+    }
   },
   methods: {
     /**

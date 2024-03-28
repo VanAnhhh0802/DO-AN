@@ -65,12 +65,16 @@
     "edit": "Sửa",
     "delete": "Xóa",
     "use": "Sử dụng",
+    "don_use": "Ngừng sd",
     "return": "Quay lại",
     "duplicate": "Nhân bản",
     "inactive": "Ngưng sử dụng",
     "active": "Sử dụng",
     "more_action": "Chức năng khác",
     "table_setting": "Tùy chỉnh giao diện"
+  },
+  "tooltip":{
+    "inactive":"Ngưng sử dụng"
   },
 
   "table_filter": {

@@ -101,7 +101,6 @@ export default {
     ADD: "add",
     // Chỉnh sửa
     EDIT: "edit",
-    USE: "use",
     // Xóa
     DELETE: "delete",
     // Xóa nhiều
@@ -273,6 +272,26 @@ export default {
     October: 10,
     November: 11,
     December: 12,
-    All: 20,
   },
+  DATETEXT: {
+    currentYear: 'Năm này',
+    lastYear: 'Năm trước',
+    currentMonth: 'Tháng này',
+    today: 'Hôm nay',
+    yesterday: 'Hôm qua',
+    currentWeek: 'Tuần này',
+    lastWeek: 'Tuần trước',
+    January: 'Tháng 1',
+    February: 'Tháng 2',
+    March: 'Tháng 3',
+    April: 'Tháng 4',
+    May: 'Tháng 5',
+    June: 'Tháng 6',
+    July: 'Tháng 7',
+    August: 'Tháng 8',
+    September: 'Tháng 9',
+    October: 'Tháng 10',
+    November: 'Tháng 11',
+    December: 'Tháng 12',
+  }
 };

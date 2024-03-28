@@ -1,0 +1,274 @@
+.combobox {
+    position: relative;
+    /* flex-direction: row; */
+    display: flex;
+    height: 30px;
+    border-radius: 4px;
+    box-sizing: border-box;
+  
+  }
+  .v-combobox__selected {
+    position: relative;
+  }
+  .combobox__button {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(90, 90, 90);
+    border-radius: 0 2px 2px 0;
+    right: 1px;
+    top: 1px;
+    outline: none;
+    border: none;
+    border-left: unset;
+    height: 30px;
+    width: 28px;
+    background-color: #fff;
+    cursor: pointer;
+    min-width: unset !important;
+    outline: none;
+  }
+  
+  .combobox__button:hover,
+  .combobox__button:focus {
+    background-color: rgb(224, 224, 224);
+    color: #000;
+  }
+  
+  .combobox__data {
+    display: flex;
+    flex-direction: column;
+    padding: 2px 0px;
+    position: absolute;
+    overflow: auto;
+    width: 100%;
+    height: max-content;
+    max-height: 180px;
+    top: 100%;
+    left: 0;
+    border-radius: 2.5px;
+    background-color: #fff;
+    box-shadow: 0px 3px 6px #00000016;
+    z-index: 999;
+  }
+  
+  .combobox__data::-webkit-scrollbar {
+      width: 10px;
+  }
+  
+  .combobox__data::-webkit-scrollbar-track {
+      background-color: rgb(241, 241, 241);
+      border-radius: 3px;
+  }
+  
+  .combobox__data::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+      background-color: #9E9E9E;
+  }
+  
+  .combobox__item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    line-height: 29px;
+    padding-left: 10px;
+    height: 29px;
+    cursor: pointer;
+    outline: none;
+    color: black;
+  }
+  
+  .combobox__item-icon {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .combobox__item-icon--selected {
+    width: 14px;
+    height: 11px;
+  }
+  
+  .combobox__item:hover,
+  .combobox__item:focus,
+  .combobox__item--focus,
+  .combobox__item--hover {
+    background-color: #e9ebee;
+    color: rgb(52, 59, 140);
+  }
+  
+  .combobox__item--selected {
+    pointer-events: none;
+    background-color: rgb(38, 43, 102);
+    color: #fff;
+  }
+  
+  .input-err .combobox__input,
+  .input-err .combobox__input~.combobox__button {
+    border-color: #E61D1D;
+  }
+  
+  .combobox__input:focus,
+  .combobox__input:focus~.combobox__button {
+    border-color: rgb(38, 43, 102);
+  }
+  
+  :root {
+      --input-height: 32px;
+      --input-colorHover: rgb(52, 59, 140);
+  }
+  
+  .input {
+      font-size: 13px;
+      background-color: #ffffff;
+      border-radius: 4px;
+      padding-left: 10px;
+      color: inherit;
+      border: 1px solid #babec5;
+      height: 32px;
+      box-sizing: border-box;
+      outline: none;
+      border-collapse: collapse;
+      width: 100%;
+  }
+  
+  .input::placeholder {
+      font-size: 13px;
+      font-style: italic;
+  }
+  
+  .input--focused {
+      border-color: rgb(0, 98, 204);
+  }
+  
+  .input--disable {
+      background-color: #f5f4f4;
+      pointer-events: none;
+  }
+  
+  .input:hover,
+  .input:focus {
+      border-color: rgb(0, 98, 204);
+  }
+  
+  .input:focus +.message--hasError {
+      display: none;
+  }
+  
+  .input--disable {
+      background-color: #f5f4f4;
+      pointer-events: none;
+  }
+  
+  .input--error,
+  .input--error:hover {
+      border: 1px solid #ed4337;
+  }
+  
+  /* Begin: Search input */
+  .input--search {
+      width: 280px;
+      padding-left: 10px;
+      padding-right: 36px;
+  }
+  
+  .input--search::placeholder {
+      font-size: 8px !important;
+      font-style: Roboto Italic;
+  }
+  /* End: Search input */
+  .input--filter {
+   /*    pointer-events: none; */
+  }
+  
+  .input--filter::selection {
+      background-color: white;
+  }
+  
+  
+  /* Được dùng cho dữ liệu nhập số */
+  .input--textright {
+      text-align: right;
+  }
+  
+  /* Được dùng cho modal */
+  .input--haveicon {
+      padding-right: 36px;
+  }
+  
+  input[type="date"]::-webkit-calendar-picker-indicator {
+      position: relative;
+      padding: 6px;
+      width: 16px;
+      height: 17px;
+      right: 0.8px;
+      cursor: pointer;
+  }
+  
+  input[type="date"]::-webkit-calendar-picker-indicator:hover {
+      background-color: rgb(224, 224, 224);
+      border-radius: 2px;
+  }
+  
+  input[type="radio"] {
+      accent-color: #2ca01c;
+      width: 18px;
+      height: 18px;
+      position: relative;
+      top: -2px;
+      outline-color: #a2f897;
+  }
+  
+  .input__text--error {
+      position: absolute;
+      color: #ed4337;
+      font-size: 10px;
+      margin-top: 4px;
+  }
+  
+  .input--quantity {
+      position: relative;
+  }
+  
+  .input--modal {
+      font-size: 14px;
+  }
+  
+  .input--page {
+      width: 200px !important;
+      text-overflow: ellipsis;
+      display: flex;
+      flex-grow: 1;
+  }
+  
+  .input--220 {
+      width: 200px !important;
+  }
+  
+  .input--174 {
+      width: 174px !important;
+  }
+  
+  .icon {
+    background-image: url("@/assets/img/Sprites.64af8f61.svg");
+    background-repeat: no-repeat;
+    display: block;
+    cursor: pointer;
+  }
+  
+  .icon--caretdown {
+    background-position: -560px -359px;
+    width: 16px;
+    height: 16px;
+    transform: rotate(0deg);
+    transition: transform .15s linear;
+  }
+  
+  .icon--caretdownRotate {
+    transform: rotate(180deg);
+  }

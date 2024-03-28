@@ -10,6 +10,7 @@ import i18n from "@/locales/i18n";
 import outsideClickDirective from "./directives/outsideClick";
 import outsideClickTeleport from "./directives/outsideClickTeleport";
 import commonFn from '@/utils/commonFunction'
+import VTooltip from 'v-tooltip'
 //import auth from "@/authentication";
 
 const app = createApp(App); // Khởi tạo app
@@ -32,6 +33,7 @@ app.directive("click-outside-teleport", outsideClickTeleport); // Đăng ký dir
 app.use(store); // Sử dụng store
 // app.use(commonFn); // Sử dụng store
 app.use(FlagIcon); // Sử dụng flag-icon
+app.use(VTooltip); // Sử dụng flag-icon
 //app.use(auth); // Sử dụng authen
 app.use(i18n); // Sử dụng i18n
 app.mount("#app"); // Mount app vào DOM

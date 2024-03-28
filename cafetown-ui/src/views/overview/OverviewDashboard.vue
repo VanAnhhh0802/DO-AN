@@ -115,6 +115,9 @@
 
                     <div class="item__function">
                         <div class="item__date">
+                            <!-- <msComboboxEnum
+                            data="DATE"
+                            ></msComboboxEnum> -->
                         </div>
 
                         <div class="item__reset" :tooltip="$t('action.reload_data')" @click="loadTopInvoices">
@@ -247,8 +250,9 @@
 import Enum from "@/utils/enum";
 import { mapGetters } from 'vuex';
 import { formatCurrency } from '@/utils/format';
+// import msComboboxEnum from '@/components/base/Combobox/msComboboxEnum.vue'
 export default {
-
+    // components: {msComboboxEnum},
     created() { // Hàm này chạy khi component được tạo
         const me = this;
         me.getInventoryList(); // Lấy danh sách hàng hóa

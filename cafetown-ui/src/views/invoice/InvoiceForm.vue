@@ -810,7 +810,9 @@ export default {
           status: "Đã sử dụng"
         }
         const resUpdateStatus = await me.$api.table.updateStatusTable(objectUpdate);
-        if(resUpdateStatus) console.log(resUpdateStatus);
+        if(resUpdateStatus) {
+          me.$emit('ReloadData');
+        }
         return Promise.resolve(true);
       }
     },
